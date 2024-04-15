@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6381dba1-75e9-461e-9b27-1ed3ad584327" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="Go File" />
+      </list>
+    </option>
+  </component>
+  <component name="GOROOT" url="file:///usr/lib/go" />
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$USER_HOME$/go/pkg/mod/github.com/gojuno/minimock/v3@v3.3.6/mock_controller.go" root0="SKIP_INSPECTION" />
+    <setting file="file:///usr/lib/go/src/net/http/server.go" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2d8MS2atlH7fXA0Kg0q8LLDH8gO" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Go Build.go build auth main.go.executor&quot;: &quot;Run&quot;,
+    &quot;Go Build.go build auth/cmd/user.executor&quot;: &quot;Debug&quot;,
+    &quot;Go Test.TestSignUp in auth/internal/api/user/tests.executor&quot;: &quot;Run&quot;,
+    &quot;Makefile Target.generate.executor&quot;: &quot;Run&quot;,
+    &quot;Makefile Target.get-deps.executor&quot;: &quot;Run&quot;,
+    &quot;Makefile Target.get-qwe-deps.executor&quot;: &quot;Run&quot;,
+    &quot;Makefile Target.install-deps.executor&quot;: &quot;Run&quot;,
+    &quot;Makefile Target.lint.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.automatic.dependencies.download&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/killy/GolandProjects/github.com/killy/auth&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preference.GoLinterConfigurable&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
+    ]
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/internal/repository/user" />
+      <recent name="$PROJECT_DIR$/internal/smtp/templates" />
+      <recent name="$PROJECT_DIR$/internal/service/user/validate" />
+      <recent name="$PROJECT_DIR$/cert" />
+      <recent name="$PROJECT_DIR$/internal/logger" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Go Build.go build auth/cmd/user">
+    <configuration name="go build auth/cmd/user" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
+      <module name="auth" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="DIRECTORY" />
+      <package value="auth" />
+      <directory value="$PROJECT_DIR$/cmd/user" />
+      <filePath value="$PROJECT_DIR$/../auth|$PROJECT_DIR$/cmd/user/main.go" />
+      <output_directory value="$PROJECT_DIR$/bin" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestSignUp in auth/internal/api/user/tests" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="auth" />
+      <working_directory value="$PROJECT_DIR$/internal/api/user/tests" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="auth/internal/api/user/tests" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestSignUp\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="get-deps" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="get-deps" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
+    <configuration name="get-qwe-deps" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="get-qwe-deps" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
+    <configuration name="install-deps" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="install-deps" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
+    <configuration name="lint" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="lint" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Go Build.go build auth/cmd/user" />
+      <item itemvalue="Go Test.TestSignUp in auth/internal/api/user/tests" />
+      <item itemvalue="Makefile Target.get-deps" />
+      <item itemvalue="Makefile Target.get-qwe-deps" />
+      <item itemvalue="Makefile Target.install-deps" />
+      <item itemvalue="Makefile Target.lint" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Makefile Target.lint" />
+        <item itemvalue="Makefile Target.install-deps" />
+        <item itemvalue="Makefile Target.get-qwe-deps" />
+        <item itemvalue="Makefile Target.get-deps" />
+        <item itemvalue="Go Test.TestSignUp in auth/internal/api/user/tests" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-gosdk-2946fb9b3188-155fe4b6e3a0-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-233.14475.38" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VgoProject">
+    <settings-migrated>true</settings-migrated>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/api/http/user/verify.go</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
