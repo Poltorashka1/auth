@@ -22,9 +22,6 @@ type SignInUser struct {
 	Password string `json:"password"`
 }
 
-type SignInResponse struct {
-	Token string
-}
 type User struct {
 	ID        int       `json:"id"`
 	Name      string    `json:"name"`
@@ -33,4 +30,10 @@ type User struct {
 	Role      string    `json:"role"`
 	Active    bool      `json:"active"`
 	CreatedAt time.Time `json:"created_at"`
+	Session   string    `json:"session"`
+}
+
+type TokenPair struct {
+	RefreshToken string
+	AccessToken  string
 }

@@ -3,6 +3,8 @@ package serviceUser
 import (
 	serviceUserModel "auth/internal/service/user/model"
 	"context"
+	"crypto/rand"
+	"encoding/base64"
 	"log"
 )
 
@@ -37,7 +39,7 @@ func (s *UserServ) SignUp(ctx context.Context, user serviceUserModel.SignUpUser)
 	}
 
 	// generate verification token
-	token, err := s.VerifyToken()
+	token, err := generateVerifyToken()
 	if err != nil {
 		return 0, err
 	}
@@ -58,4 +60,15 @@ func (s *UserServ) SignUp(ctx context.Context, user serviceUserModel.SignUpUser)
 	}
 
 	return id, nil
+}
+
+func generateVerifyToken() (string, error) {
+	bt := make([]byte, 32)
+	_, err := rand.Read(bt)
+	if err != nil {
+		return "", err
+	}
+
+	token := base64.URLEncoding.EncodeToString(bt)
+	return token, err
 }

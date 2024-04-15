@@ -35,20 +35,8 @@ func (h *UserHandler) SignIn(w http.ResponseWriter, r *http.Request) {
 		default:
 			apiJson.JSON(w, response.Error(err, http.StatusInternalServerError))
 		}
-
 		return
 	}
 
-	apiJson.JSON(w, response.Success(apiUserModel.SignInResponse{Token: token}))
+	apiJson.JSON(w, response.Success(apiUserModel.TokenPair{AccessToken: token.AccessToken, RefreshToken: token.RefreshToken}))
 }
-
-//	switch err.(type) {
-//	case *apperrors.ValidationErrors:
-//		apiJson.JSON(w, response.Error(err, http.StatusBadRequest))
-//	case *apperrors.UserNotFoundError:
-//		apiJson.JSON(w, response.Error(err, http.StatusNotFound))
-//	case *apperrors.ErrWrongPassword: // todo ErrWrongPassword:
-//	case // todo ErrUserNotActivated:
-//	default:
-//		apiJson.JSON(w, response.Error(err, http.StatusInternalServerError))
-//	}

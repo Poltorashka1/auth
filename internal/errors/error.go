@@ -16,6 +16,9 @@ var (
 	ErrWrongPassword          = errors.New("wrong password")
 	ErrWrongVerifyToken       = errors.New("wrong verification token")
 	ErrUserNotActivated       = errors.New("user not activated")
+	ErrAccessToken            = errors.New("access token error")
+	ErrRefreshToken           = errors.New("refresh token error")
+	ErrWrongRefreshToken      = errors.New("wrong refresh token")
 	// ErrUserNotFound           = errors.New("user not found")
 )
 

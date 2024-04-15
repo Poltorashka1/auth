@@ -1,7 +1,7 @@
 package converter
 
 import (
-	apiUSerModel "auth/internal/api/http/user/model"
+	apiUserModel "auth/internal/api/http/user/model"
 	serviceUserModel "auth/internal/service/user/model"
 	"auth/pkg"
 )
@@ -14,7 +14,7 @@ func FromPkgToUserService(user *pkg.SignUpRequest) serviceUserModel.SignUpUser {
 	}
 }
 
-func FromHTTPToUserService(user *apiUSerModel.SignUpUser) serviceUserModel.SignUpUser {
+func FromHTTPToUserService(user *apiUserModel.SignUpUser) serviceUserModel.SignUpUser {
 	return serviceUserModel.SignUpUser{
 		Name:     user.Name,
 		Email:    user.Email,
@@ -29,16 +29,28 @@ func FromAPIToGetUser(field, param string) serviceUserModel.GetUserByNameOrID {
 	}
 }
 
-func FromApiToEmailVerify(req apiUSerModel.EmailVerify) serviceUserModel.EmailVerify {
+func FromApiToEmailVerify(req apiUserModel.EmailVerify) serviceUserModel.EmailVerify {
 	return serviceUserModel.EmailVerify{
 		Token: req.Token,
 		Email: req.Email,
 	}
 }
 
-func FromApiToSignIn(req apiUSerModel.SignInUser) serviceUserModel.SignInUser {
+func FromApiToSignIn(req apiUserModel.SignInUser) serviceUserModel.SignInUser {
 	return serviceUserModel.SignInUser{
 		Email:    req.Email,
 		Password: req.Password,
+	}
+}
+
+func FromApiToRefreshToken(inp *apiUserModel.TokenPair) serviceUserModel.TokenPair {
+	return serviceUserModel.TokenPair{
+		RefreshToken: inp.RefreshToken,
+	}
+}
+func FromServiceToApiRefreshToken(inp *serviceUserModel.TokenPair) apiUserModel.TokenPair {
+	return apiUserModel.TokenPair{
+		AccessToken:  inp.AccessToken,
+		RefreshToken: inp.RefreshToken,
 	}
 }

@@ -6,6 +6,37 @@ import (
 	"strconv"
 )
 
+func (t *TokenPair) Validate() error {
+	errors := &apperrors.ValidationErrors{}
+	if err := validateAccessToken(t.AccessToken); err != nil {
+		errors.Message = append(errors.Message, err.Error())
+	}
+
+	if err := validateRefreshToken(t.RefreshToken); err != nil {
+		errors.Message = append(errors.Message, err.Error())
+	}
+
+	if len(errors.Message) > 0 {
+		return errors
+	}
+	return nil
+}
+
+func validateRefreshToken(refreshToken string) error {
+	if refreshToken == "" {
+		return apperrors.ErrRefreshToken
+	}
+	return nil
+
+}
+
+func validateAccessToken(accessToken string) error {
+	if accessToken == "" {
+		return apperrors.ErrAccessToken
+	}
+	return nil
+}
+
 func (s *SignUpUser) Validate() error {
 	errors := &apperrors.ValidationErrors{}
 	if err := validateName(s.Name); err != nil {

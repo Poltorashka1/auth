@@ -19,4 +19,5 @@ type User struct {
 	Role      int
 	Active    bool
 	CreatedAt string
+	Session   string
 }

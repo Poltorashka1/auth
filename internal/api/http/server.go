@@ -45,6 +45,7 @@ func (s *Server) InitRoutes() {
 	s.router.AddRoute(http.MethodGet, "/user", s.Authorization(s.userHandler.GetUser))
 	s.router.AddRoute(http.MethodGet, "/verify", s.userHandler.EmailVerify) // todo mb post
 	s.router.AddRoute(http.MethodPost, "/signin", s.userHandler.SignIn)
+	s.router.AddRoute(http.MethodGet, "/refresh", s.userHandler.RefreshToken)
 }
 
 func (s *Server) Authorization(next http.HandlerFunc) http.HandlerFunc {

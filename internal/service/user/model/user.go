@@ -1,10 +1,14 @@
 package serviceUserModel
 
 import (
-	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
 	"time"
 )
+
+type TokenPair struct {
+	RefreshToken string
+	AccessToken  string
+}
 
 type GetUserByNameOrID struct {
 	Param string
@@ -49,25 +53,9 @@ type User struct {
 	Role      int       `db:"role"`
 	Active    bool      `db:"active"`
 	CreatedAt time.Time `db:"created_at"`
+	Session   string    `db:"session"`
 }
 
 func (u *User) Validate() error {
 	return nil
-}
-
-func (u *User) GenerateJwtToken(secret string) (string, error) {
-	payload := jwt.MapClaims{
-		"user_id": u.ID,
-		"role":    u.Role,
-		"exp":     time.Now().Add(time.Minute * 15).Unix(),
-	}
-
-	t := jwt.NewWithClaims(jwt.SigningMethodHS256, payload)
-
-	token, err := t.SignedString([]byte(secret))
-	if err != nil {
-		return "", err
-	}
-
-	return token, nil
 }

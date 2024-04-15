@@ -15,6 +15,9 @@ type UserRepository interface {
 	ActivateUser(ctx context.Context, email string) error
 	SignIn(ctx context.Context, user serviceUserModel.SignInUser) (string, error)
 	GetUserByEmail(ctx context.Context, email string) (*serviceUserModel.User, error)
+	CreateSession(ctx context.Context, id int, refreshToken string) error
+	// todo поменять
+	GetSession(ctx context.Context, refreshToken string) (*serviceUserModel.User, error)
 	// SignOut(ctx context.Context, token string) error
 
 	// GetUserByName(ctx context.Context, user serviceUserModel.GetUser) (*serviceUserModel.User, error)

@@ -6,41 +6,29 @@ import (
 	serviceUserModel "auth/internal/service/user/model"
 	"auth/internal/smtp"
 	"context"
-	"crypto/rand"
-	"encoding/base64"
 	"log"
 	"os"
 )
 
 type UserService interface {
 	SignUp(ctx context.Context, user serviceUserModel.SignUpUser) (int64, error)
-	SignIn(ctx context.Context, user serviceUserModel.SignInUser) (string, error)
+	SignIn(ctx context.Context, user serviceUserModel.SignInUser) (*serviceUserModel.TokenPair, error)
 	// SignOut(ctx context.Context, token string) error
 
 	GetUser(ctx context.Context, idOrName serviceUserModel.GetUserByNameOrID) (*serviceUserModel.User, error)
 	EmailVerify(ctx context.Context, verify serviceUserModel.EmailVerify) error
+	RefreshToken(ctx context.Context, token serviceUserModel.TokenPair) (*serviceUserModel.TokenPair, error)
 }
 
 type UserServ struct {
-	smtp      smtp.SMTP
-	repo      repository.Repository
-	tx        db.Transaction
-	jwtSecret string
-}
-
-func (s *UserServ) VerifyToken() (string, error) {
-	bt := make([]byte, 32)
-	_, err := rand.Read(bt)
-	if err != nil {
-		return "", err
-	}
-
-	token := base64.URLEncoding.EncodeToString(bt)
-	return token, err
+	smtp       smtp.SMTP
+	repo       repository.Repository
+	tx         db.Transaction
+	_jwtSecret string
 }
 
 func (s *UserServ) JWTSecret() string {
-	return s.jwtSecret
+	return s._jwtSecret
 }
 
 func New(userRepo repository.Repository, tx db.Transaction, smtp smtp.SMTP) UserService {
@@ -52,9 +40,9 @@ func New(userRepo repository.Repository, tx db.Transaction, smtp smtp.SMTP) User
 
 	// todo logging
 	return &UserServ{
-		repo:      userRepo,
-		tx:        tx,
-		smtp:      smtp,
-		jwtSecret: secret,
+		repo:       userRepo,
+		tx:         tx,
+		smtp:       smtp,
+		_jwtSecret: secret,
 	}
 }
