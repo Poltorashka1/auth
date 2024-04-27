@@ -5,66 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6381dba1-75e9-461e-9b27-1ed3ad584327" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/internal/api/gRPC/user/signup.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/api/http/middleware/auth.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/api/http/user/role.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/api/http/user/signout.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/api/http/user/token.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/converter/user_grpc.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/converter/user_http.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/repository/user/delete.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/repository/user/route.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/repository/user/signout.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/service/user/get.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/service/user/role.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/service/user/signout.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/service/user/token.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/utils/jwt.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/0d514cda-817d-4a49-afb1-5a260943f9c5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0d514cda-817d-4a49-afb1-5a260943f9c5.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0d514cda-817d-4a49-afb1-5a260943f9c5/storage_v2/_src_/database/user_auth.nFE0FA/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0d514cda-817d-4a49-afb1-5a260943f9c5/storage_v2/_src_/database/user_auth.nFE0FA/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/user/user.proto" beforeDir="false" afterPath="$PROJECT_DIR$/api/user/user.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/go_build_auth_cmd_user" beforeDir="false" afterPath="$PROJECT_DIR$/bin/go_build_auth_cmd_user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/user/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/user/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/api/gRPC/user/grpc.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/api/gRPC/user/grpc.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/api/gRPC/user/tests/signup_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/api/http/response/response.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/api/http/response/response.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/api/http/router/chi.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/api/http/router/chi.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/api/http/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/api/http/router/router.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/api/http/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/api/http/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/api/http/user/get_user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/api/http/user/get.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/api/http/user/model/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/api/http/user/model/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/api/http/user/refresh.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/api/http/user/signin.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/api/http/user/signin.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/api/http/user/singup.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/api/http/user/singup.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/api/http/user/verify.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/api/http/user/verify.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/provider.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/provider.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/client/db/db.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/db/db.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/client/db/pg/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/db/pg/client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/client/db/pg/pg.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/db/pg/pg.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/converter/user.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/errors/error.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/errors/error.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/repository/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/repository/user/check.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/user/check.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/repository/user/get.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/user/get.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/repository/user/model/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/user/model/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/repository/user/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/user/repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/repository/user/session.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/user/session.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/repository/user/signup.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/user/signup.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/repository/user/verify.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/user/verify.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/service/mocks/user_service_minimock.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/service/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/service/service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/service/user/email_verify.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/service/user/verify.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/service/user/get_user.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/service/user/model/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/service/user/model/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/service/user/model/validate.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/service/user/model/validate.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/service/user/refresh.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/service/user/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/service/user/service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/service/user/signin.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/service/user/signin.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/service/user/signup.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/service/user/signup.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/user.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/user.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/user_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/user_grpc.pb.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,38 +40,38 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultGoTemplateProperty": "Go File",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "Go Build.go build auth main.go.executor": "Run",
-    "Go Build.go build auth/cmd/user.executor": "Run",
-    "Go Test.TestSignUp in auth/internal/api/user/tests.executor": "Run",
-    "Makefile Target.generate.executor": "Run",
-    "Makefile Target.get-deps.executor": "Run",
-    "Makefile Target.get-qwe-deps.executor": "Run",
-    "Makefile Target.install-deps.executor": "Run",
-    "Makefile Target.lint.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "RunOnceActivity.go.modules.automatic.dependencies.download": "true",
-    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
-    "git-widget-placeholder": "tesst",
-    "go.import.settings.migrated": "true",
-    "last_opened_file_path": "/home/killy/GolandProjects/github.com/killy/auth",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Go Build.go build auth main.go.executor&quot;: &quot;Run&quot;,
+    &quot;Go Build.go build auth/cmd/user.executor&quot;: &quot;Run&quot;,
+    &quot;Go Test.TestSignUp in auth/internal/api/user/tests.executor&quot;: &quot;Run&quot;,
+    &quot;Makefile Target.generate.executor&quot;: &quot;Run&quot;,
+    &quot;Makefile Target.get-deps.executor&quot;: &quot;Run&quot;,
+    &quot;Makefile Target.get-qwe-deps.executor&quot;: &quot;Run&quot;,
+    &quot;Makefile Target.install-deps.executor&quot;: &quot;Run&quot;,
+    &quot;Makefile Target.lint.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.automatic.dependencies.download&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;tesst&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/killy/GolandProjects/github.com/killy/auth&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/internal/repository/user" />
