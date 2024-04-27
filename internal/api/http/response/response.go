@@ -23,7 +23,7 @@ func (e ErrorResponse) StatusCode() int {
 type SuccessResponse struct {
 	Status int         `json:"status"`
 	Type   string      `json:"type,omitempty"`
-	Result interface{} `json:"data,omitempty"`
+	Result interface{} `json:"result,omitempty"`
 }
 
 func (s SuccessResponse) StatusCode() int {

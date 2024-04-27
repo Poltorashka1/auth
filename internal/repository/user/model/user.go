@@ -1,5 +1,7 @@
 package repoUserModel
 
+import "time"
+
 type SignUpUser struct {
 	Name     string
 	Email    string
@@ -11,13 +13,15 @@ type SignInUser struct {
 	Password string
 }
 
+// User - user from data base
 type User struct {
-	ID        string
-	Name      string
-	Email     string
-	Password  string
-	Role      int
-	Active    bool
-	CreatedAt string
-	Session   string
+	// from table Users
+	ID        int       `db:"id"`
+	Username  string    `db:"username"`
+	Email     string    `db:"email"`
+	Password  string    `db:"password"`
+	Active    bool      `db:"active"`
+	CreatedAt time.Time `db:"created_at"`
+	// from table UserRoles
+	Roles string `db:"roles"`
 }

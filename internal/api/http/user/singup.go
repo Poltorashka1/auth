@@ -6,7 +6,6 @@ import (
 	"auth/internal/api/http/user/model"
 	"auth/internal/converter"
 	apperrors "auth/internal/errors"
-	"context"
 	"net/http"
 )
 
@@ -23,7 +22,7 @@ import (
 // @Failure      500  {object}  response.ErrorResponse
 // @Router       /signup [post]
 func (h *UserHandler) SignUp(w http.ResponseWriter, r *http.Request) {
-	requestUserData := &apiUserModel.SignUpUser{}
+	var requestUserData = new(apiUserModel.SignUpUser)
 
 	err := apiJson.DecodeJSON(r.Body, requestUserData)
 	if err != nil {
@@ -31,7 +30,7 @@ func (h *UserHandler) SignUp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := h.serv.SignUp(context.Background(), converter.FromHTTPToUserService(requestUserData))
+	_, err = h.serv.SignUp(r.Context(), converter.HTTPToSignUpUser(requestUserData))
 	if err != nil {
 		switch customErr := err.(type) {
 		case *apperrors.ValidationErrors:
@@ -44,5 +43,5 @@ func (h *UserHandler) SignUp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	apiJson.JSON(w, response.Success(apiUserModel.SignUpResponse{ID: id}))
+	apiJson.JSON(w, response.Success(nil))
 }

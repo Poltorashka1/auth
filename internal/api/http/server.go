@@ -5,9 +5,10 @@ import (
 	"auth/internal/api/http/middleware"
 	"auth/internal/api/http/router"
 	apiUser "auth/internal/api/http/user"
+	apiUserModel "auth/internal/api/http/user/model"
 	"auth/internal/config"
-	"fmt"
-	"github.com/golang-jwt/jwt/v5"
+	"auth/internal/utils"
+	"context"
 	"github.com/swaggo/http-swagger/v2"
 	"net/http"
 )
@@ -42,40 +43,85 @@ func (s *Server) InitMiddleware() {
 func (s *Server) InitRoutes() {
 	s.router.AddRoute(http.MethodGet, "/swagger/*", httpSwagger.Handler(httpSwagger.URL("http://localhost:50052/swagger/doc.json")))
 	s.router.AddRoute(http.MethodPost, "/signup", s.userHandler.SignUp)
-	s.router.AddRoute(http.MethodGet, "/user", s.Authorization(s.userHandler.GetUser))
+	s.router.AddRoute(http.MethodGet, "/users", s.Check(s.userHandler.GetUser))
 	s.router.AddRoute(http.MethodGet, "/verify", s.userHandler.EmailVerify) // todo mb post
 	s.router.AddRoute(http.MethodPost, "/signin", s.userHandler.SignIn)
-	s.router.AddRoute(http.MethodGet, "/refresh", s.userHandler.RefreshToken)
+	s.router.AddRoute(http.MethodGet, "/refresh", s.userHandler.GetAccessToken)
+	s.router.AddRoute(http.MethodDelete, "/signout", s.userHandler.SignOut)
+	s.router.AddRoute(http.MethodPost, "/check-roles", s.userHandler.CheckUserRole)
+	// todo ChangePassword
+	// todo UpdateUser
+	// todo DeleteUser
+	// todo GetUsers
 }
 
-func (s *Server) Authorization(next http.HandlerFunc) http.HandlerFunc {
+func (s *Server) Check(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		// get token
 		tokenString := r.Header.Get("Authorization")
-		if tokenString == "" {
-			w.WriteHeader(http.StatusUnauthorized)
-			_, _ = w.Write([]byte("invalid token"))
-			return
-		}
-
-		// todo uznat kak eto work
-		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-				return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
-			}
-			return []byte(s.cfg.JwtSecret()), nil
-		})
+		tokenData, err := s.CheckToken(tokenString)
 		if err != nil {
-			w.WriteHeader(http.StatusUnauthorized)
-			_, _ = w.Write([]byte("invalid token"))
-			return
+			s.userHandler.GetAccessToken(w, r)
+			// нужна ошибка если внутри произойдт ошибка, или токен сгенерирован но не добавлен
+			// иначе без проверки вызывает
 		}
 
-		if !token.Valid {
-			w.WriteHeader(http.StatusUnauthorized)
-			_, _ = w.Write([]byte("invalid token"))
-			return
-		}
-
-		next.ServeHTTP(w, r)
+		var ctx = context.WithValue(context.Background(), "tokenData", tokenData)
+		next.ServeHTTP(w, r.WithContext(ctx))
 	}
 }
+
+func (s *Server) CheckToken(tokenString string) (*apiUserModel.TokenData, error) {
+	token, err := utils.GetToken(tokenString)
+	if err != nil {
+		return nil, err
+	}
+
+	data, err := utils.VerifyToken(token, s.cfg.JwtSecret())
+	if err != nil {
+		return nil, err
+	}
+
+	return data, nil
+}
+
+// todo найти место для этой хуйнии переписать ее
+
+// func (s *Server) Authorization(next http.HandlerFunc) http.HandlerFunc {
+//	return func(w http.ResponseWriter, r *http.Request) {
+//		var err error
+//
+//		defer func() {
+//			if err != nil {
+//				err := s.userHandler.GetAccessTokenOrError(w, r)
+//				if err != nil {
+//					return
+//				}
+//				tokenString, err := utils.GetToken(r)
+//				if err != nil {
+//					return
+//				}
+//				_, err = utils.VerifyToken(tokenString, s.cfg.JwtSecret())
+//				if err != nil {
+//					return
+//					// apiJson.JSON(w, response.Error(err, http.StatusUnauthorized))
+//				}
+//
+//				next.ServeHTTP(w, r)
+//			}
+//		}()
+//
+//		tokenString, err := utils.GetToken(r)
+//		if err != nil {
+//			return
+//		}
+//
+//		_, err = utils.VerifyToken(tokenString, s.cfg.JwtSecret())
+//		if err != nil {
+//			return
+//			// apiJson.JSON(w, response.Error(err, http.StatusUnauthorized))
+//		}
+//
+//		next.ServeHTTP(w, r)
+//	}
+//}

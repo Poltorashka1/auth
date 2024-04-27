@@ -12,9 +12,8 @@ service Auth {
   rpc SignIn(SignInRequest) returns (SignInResponse);
   rpc SignOut(SignOutRequest) returns (SignOutResponse);
   rpc GetUser(GetUserRequest) returns (GetUserResponse);
-  // todo delete user
-  // todo update user
-  // todo change password
+  rpc GetAccessToken(GetAccessTokenRequest) returns (GetAccessTokenResponse);
+  rpc EmailVerify(EmailVerifyRequest) returns (EmailVerifyResponse);
 }
 
 enum role {
@@ -29,6 +28,8 @@ message User {
   string password = 4;
   google.protobuf.Timestamp created_at = 5;
   role role = 6;
+  bool active = 7;
+  string session = 8;
 }
 
 message SignUpRequest {
@@ -47,11 +48,12 @@ message SignInRequest {
 }
 
 message SignInResponse {
-  string token = 1;
+  string refresh_token = 1;
+  string access_token = 2;
 }
 
 message SignOutRequest {
-  string token = 1;
+  string refresh_token = 1;
 }
 
 message SignOutResponse {
@@ -67,4 +69,22 @@ message GetUserRequest {
 
 message GetUserResponse {
   User user = 1;
+}
+
+message GetAccessTokenRequest {
+  string refresh_token = 1;
+}
+
+message GetAccessTokenResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+}
+
+message EmailVerifyRequest {
+  string token = 1;
+  string email = 2;
+}
+
+message EmailVerifyResponse {
+  google.protobuf.Empty empty = 1;
 }

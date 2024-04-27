@@ -5,14 +5,17 @@ import (
 	"time"
 )
 
-type TokenPair struct {
+type AuthTokenPair struct {
 	RefreshToken string
 	AccessToken  string
 }
 
-type GetUserByNameOrID struct {
-	Param string
-	Field string
+type GetUserByID struct {
+	ID string
+}
+
+type GetUserByName struct {
+	Name string
 }
 
 type EmailVerify struct {
@@ -21,7 +24,7 @@ type EmailVerify struct {
 }
 
 type SignUpUser struct {
-	Name     string
+	Username string
 	Email    string
 	Password string
 }
@@ -41,21 +44,53 @@ type SignInUser struct {
 	Password string
 }
 
-func (s *SignInUser) CheckPassword(hashPassword string) error {
-	return bcrypt.CompareHashAndPassword([]byte(hashPassword), []byte(s.Password))
+type TokenData struct {
+	Username string `db:"username"`
+	UserRole string `db:"role"`
+	Expires  int    `db:"exp"`
 }
 
+type CheckUserRoleData struct {
+	Username string `db:"username"`
+	UserRole string `db:"role"`
+	Route    string `db:"route"`
+}
+
+// User - user from data base
 type User struct {
+	// from table Users
 	ID        int       `db:"id"`
-	Name      string    `db:"name"`
+	Username  string    `db:"username"`
 	Email     string    `db:"email"`
 	Password  string    `db:"password"`
-	Role      int       `db:"role"`
 	Active    bool      `db:"active"`
 	CreatedAt time.Time `db:"created_at"`
-	Session   string    `db:"session"`
+	// from table UserRoles
+	Roles []string `db:"roles"`
+}
+
+func (u *User) CheckPassword(passwordToCheck string) error {
+	return bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(passwordToCheck))
+}
+
+type Session struct {
+	UserID       int    `db:"user_id"`
+	Username     string `db:"name"`
+	RefreshToken string `db:"session_token"`
 }
 
 func (u *User) Validate() error {
+	// todo made this func
 	return nil
+}
+
+type SignOut struct {
+	RefreshToken string
+}
+
+type CreateSession struct {
+	UserID       int
+	Username     string
+	RefreshToken string
+	Expires      time.Time
 }

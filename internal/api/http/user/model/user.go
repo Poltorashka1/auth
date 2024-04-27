@@ -1,9 +1,12 @@
 package apiUserModel
 
-import "time"
+import (
+	"github.com/golang-jwt/jwt/v5"
+	"time"
+)
 
 type SignUpUser struct {
-	Name     string `json:"name"`
+	Username string `json:"username"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
@@ -24,16 +27,38 @@ type SignInUser struct {
 
 type User struct {
 	ID        int       `json:"id"`
-	Name      string    `json:"name"`
+	Username  string    `json:"name"`
 	Email     string    `json:"email"`
 	Password  string    `json:"password"`
 	Role      string    `json:"role"`
 	Active    bool      `json:"active"`
 	CreatedAt time.Time `json:"created_at"`
-	Session   string    `json:"session"`
+	Session   string    `json:"session,omitempty"`
 }
 
-type TokenPair struct {
+type AuthTokenPair struct {
 	RefreshToken string
 	AccessToken  string
+}
+
+type TokenData struct {
+	UserName string `json:"username"`
+	UserRole string `json:"role"`
+	Expires  int    `json:"exp"`
+}
+
+type CheckUserRoleData struct {
+	Username string `json:"username"`
+	UserRole string `json:"role"`
+	Route    string `json:"route"`
+}
+
+func (t *TokenData) FromClaims(claims jwt.MapClaims) {
+	if username, ok := claims["username"].(string); ok {
+		t.UserName = username
+	}
+
+	if role, ok := claims["role"].(string); ok {
+		t.UserRole = role
+	}
 }

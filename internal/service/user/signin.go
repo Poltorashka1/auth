@@ -3,42 +3,44 @@ package serviceUser
 import (
 	apperrors "auth/internal/errors"
 	serviceUserModel "auth/internal/service/user/model"
+	"auth/internal/utils"
 	"context"
-	"crypto/rand"
-	"encoding/base64"
-	"github.com/golang-jwt/jwt/v5"
+	"strings"
 	"time"
 )
 
-func (s *UserServ) SignIn(ctx context.Context, user serviceUserModel.SignInUser) (*serviceUserModel.TokenPair, error) {
-	err := user.Validate()
+// todo signin with username
+
+func (s *UserServ) SignIn(ctx context.Context, signIn serviceUserModel.SignInUser) (*serviceUserModel.AuthTokenPair, error) {
+	err := signIn.Validate()
 	if err != nil {
 		return nil, err
 	}
 
-	// todo mb pgx error lovit tut
-	// user exist
-	dbUser, err := s.repo.GetUserByEmail(ctx, user.Email)
+	user, err := s.repo.GetUserByEmail(ctx, signIn.Email)
 	if err != nil {
 		return nil, err
 	}
 
-	if !dbUser.Active {
+	if !user.Active {
 		return nil, apperrors.ErrUserNotActivated
 	}
 
-	err = user.CheckPassword(dbUser.Password)
+	err = user.CheckPassword(signIn.Password)
 	if err != nil {
 		return nil, apperrors.ErrWrongPassword
 	}
 
-	tokenPair, err := generateTokePair(dbUser, s._jwtSecret)
+	tokenPair, err := utils.TokenPair(createTokenData(user), s.JWTSecret())
 	if err != nil {
 		return nil, err
 	}
 
-	// todo mb param in model вообще во всех вызовах репы?
-	err = s.repo.CreateSession(ctx, dbUser.ID, tokenPair.RefreshToken)
+	err = s.repo.CreateSession(ctx, createSession(serviceUserModel.Session{
+		UserID:       user.ID,
+		Username:     user.Username,
+		RefreshToken: tokenPair.RefreshToken,
+	}))
 	if err != nil {
 		return nil, err
 	}
@@ -46,46 +48,20 @@ func (s *UserServ) SignIn(ctx context.Context, user serviceUserModel.SignInUser)
 	return tokenPair, nil
 }
 
-// todo struct with id and role IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-func generateTokePair(user *serviceUserModel.User, secret string) (*serviceUserModel.TokenPair, error) {
-	accessToken, err := generateAccessToken(user, secret)
-	if err != nil {
-		return nil, err
+func createTokenData(user *serviceUserModel.User) *serviceUserModel.TokenData {
+	return &serviceUserModel.TokenData{
+		Username: user.Username,
+		UserRole: strings.Join(user.Roles, ", "),
 	}
-
-	refreshToken, err := generateRefreshToken()
-	if err != nil {
-		return nil, err
-	}
-
-	return &serviceUserModel.TokenPair{RefreshToken: refreshToken, AccessToken: accessToken}, nil
-
 }
 
-func generateRefreshToken() (string, error) {
-	bt := make([]byte, 32)
-	_, err := rand.Read(bt)
-	if err != nil {
-		return "", err
+func createSession(session serviceUserModel.Session) serviceUserModel.CreateSession {
+	return serviceUserModel.CreateSession{
+		UserID:       session.UserID,
+		Username:     session.Username,
+		RefreshToken: session.RefreshToken,
+
+		// todo important time not work because it dont need now
+		Expires: time.Now(),
 	}
-
-	refreshToken := base64.RawURLEncoding.EncodeToString(bt)
-	return refreshToken, nil
-
-}
-
-func generateAccessToken(user *serviceUserModel.User, secret string) (string, error) {
-	payload := jwt.MapClaims{
-		"user_id": user.ID,
-		"role":    user.Role,
-		"exp":     time.Now().Add(time.Minute * 15).Unix(),
-	}
-
-	t := jwt.NewWithClaims(jwt.SigningMethodHS256, payload)
-
-	token, err := t.SignedString([]byte(secret))
-	if err != nil {
-		return "", err
-	}
-	return token, nil
 }

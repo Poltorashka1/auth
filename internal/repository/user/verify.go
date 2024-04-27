@@ -1,7 +1,7 @@
 package repoUser
 
 import (
-	"auth/internal/client/db"
+	"auth/internal/db"
 	"context"
 )
 
@@ -9,7 +9,7 @@ func (r *UserRepos) ActivateUser(ctx context.Context, email string) error {
 
 	q := db.NewQuery(
 		"ActivateUser",
-		"update users set active = true where email = $1",
+		`update "Users" set active = true where email = $1`,
 		[]interface{}{email},
 	)
 

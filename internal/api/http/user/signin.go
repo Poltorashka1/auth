@@ -6,20 +6,23 @@ import (
 	apiUserModel "auth/internal/api/http/user/model"
 	"auth/internal/converter"
 	apperrors "auth/internal/errors"
+	"auth/internal/utils"
 	"errors"
 	"net/http"
 )
 
-func (h *UserHandler) SignIn(w http.ResponseWriter, r *http.Request) {
-	var req apiUserModel.SignInUser
+// todo add sign in with name
 
-	err := apiJson.DecodeJSON(r.Body, &req)
+func (h *UserHandler) SignIn(w http.ResponseWriter, r *http.Request) {
+	var req = new(apiUserModel.SignInUser)
+
+	err := apiJson.DecodeJSON(r.Body, req)
 	if err != nil {
 		apiJson.JSON(w, response.Error(err, http.StatusInternalServerError))
 		return
 	}
 
-	token, err := h.serv.SignIn(r.Context(), converter.FromApiToSignIn(req))
+	tokenPair, err := h.serv.SignIn(r.Context(), converter.HTTPToSignIn(*req))
 	if err != nil {
 		var valErr *apperrors.ValidationErrors
 		var notFoundErr *apperrors.UserNotFoundError
@@ -38,5 +41,7 @@ func (h *UserHandler) SignIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	apiJson.JSON(w, response.Success(apiUserModel.TokenPair{AccessToken: token.AccessToken, RefreshToken: token.RefreshToken}))
+	utils.AddTokenPairToClient(w, tokenPair)
+
+	apiJson.JSON(w, response.Success(converter.ToHTTPTokenPair(tokenPair)))
 }

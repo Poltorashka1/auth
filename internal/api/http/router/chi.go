@@ -1,6 +1,7 @@
 package router
 
 import (
+	"context"
 	"github.com/go-chi/chi/v5"
 	"net/http"
 )
@@ -36,4 +37,31 @@ func (r *router) AddRoute(method, route string, handler http.HandlerFunc) {
 		// todo other
 	}
 
+}
+
+func (r *router) AddGroup(groupName string, handler map[string]map[string]http.HandlerFunc) {
+	r.r.Route(groupName, func(rc chi.Router) {
+		for k, v := range handler {
+			switch k {
+			case http.MethodGet:
+				for k, v := range v {
+					r.r.Get(k, v)
+				}
+			case http.MethodPost:
+				for k, v := range v {
+					r.r.Post(k, v)
+				}
+			case http.MethodDelete:
+				for k, v := range v {
+					r.r.Delete(k, v)
+				}
+			}
+		}
+	})
+
+}
+
+// todo delete
+func (r *router) CurrentRoute(ctx context.Context) string {
+	return chi.RouteContext(ctx).RoutePattern()
 }

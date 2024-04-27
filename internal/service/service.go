@@ -1,7 +1,7 @@
 package service
 
 import (
-	"auth/internal/client/db"
+	"auth/internal/db"
 	"auth/internal/repository"
 	serviceUser "auth/internal/service/user"
 	"auth/internal/smtp"

@@ -1,7 +1,7 @@
 package repoUser
 
 import (
-	"auth/internal/client/db"
+	"auth/internal/db"
 	"auth/internal/logger"
 	serviceUserModel "auth/internal/service/user/model"
 	"context"
@@ -9,19 +9,24 @@ import (
 
 type UserRepository interface {
 	SignUp(ctx context.Context, user serviceUserModel.SignUpUser, token string) (int64, error)
-	GetUserByNameOrID(ctx context.Context, param serviceUserModel.GetUserByNameOrID) (*serviceUserModel.User, error)
-	CheckUserByNameAndEmail(ctx context.Context, param serviceUserModel.SignUpUser) error
-	CheckUserVerifyByEmail(ctx context.Context, email string) (string, error)
-	ActivateUser(ctx context.Context, email string) error
 	SignIn(ctx context.Context, user serviceUserModel.SignInUser) (string, error)
-	GetUserByEmail(ctx context.Context, email string) (*serviceUserModel.User, error)
-	CreateSession(ctx context.Context, id int, refreshToken string) error
-	// todo поменять
-	GetSession(ctx context.Context, refreshToken string) (*serviceUserModel.User, error)
-	// SignOut(ctx context.Context, token string) error
+	SignOut(ctx context.Context, refreshToken string) error
 
-	// GetUserByName(ctx context.Context, user serviceUserModel.GetUser) (*serviceUserModel.User, error)
-	// GetUserByID(ctx context.Context, user serviceUserModel.GetUser) (*serviceUserModel.User, error)
+	GetUserByID(ctx context.Context, id string) (*serviceUserModel.User, error)
+	GetUserByName(ctx context.Context, username string) (*serviceUserModel.User, error)
+	GetUserByEmail(ctx context.Context, email string) (*serviceUserModel.User, error)
+	GetUserRoles(ctx context.Context, userID int) (string, error)
+
+	CheckUserByNameAndEmail(ctx context.Context, param serviceUserModel.SignUpUser) error
+	CheckUserVerify(ctx context.Context, email string) (string, error)
+
+	ActivateUser(ctx context.Context, email string) error
+
+	CreateSession(ctx context.Context, session serviceUserModel.CreateSession) error
+	GetSession(ctx context.Context, refreshToken string) (*serviceUserModel.Session, error)
+	GetRouteRole(ctx context.Context, data serviceUserModel.CheckUserRoleData) ([]string, error)
+
+	DeleteVerifyToken(ctx context.Context, email string) error
 }
 
 type UserRepos struct {
@@ -30,18 +35,9 @@ type UserRepos struct {
 	log logger.Logger
 }
 
-func New(db db.DB, log logger.Logger) *UserRepos {
+func New(db db.DB, log logger.Logger) UserRepository {
 	return &UserRepos{
 		db:  db,
 		log: log,
 	}
 }
-
-// func (r *repos) SignIn(ctx context.Context, user serviceUserModel.SignInUser) (string, error) {
-//	return "", nil
-//}
-//
-// func (r *repos) SignOut(ctx context.Context, token string) error {
-//	return nil
-//}
-//

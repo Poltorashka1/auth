@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"auth/internal/client/db"
+	"auth/internal/db"
 	"auth/internal/logger"
 	repositoryUser "auth/internal/repository/user"
 )

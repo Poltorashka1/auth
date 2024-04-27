@@ -19,6 +19,10 @@ var (
 	ErrAccessToken            = errors.New("access token error")
 	ErrRefreshToken           = errors.New("refresh token error")
 	ErrWrongRefreshToken      = errors.New("wrong refresh token")
+	ErrRefreshTokenCookie     = errors.New("refresh token cookie error")
+	ErrRefreshTokenExpired    = errors.New("refresh token expired")
+	ErrAttemptToRefreshToken  = errors.New("error attempt to refresh token")
+
 	// ErrUserNotFound           = errors.New("user not found")
 )
 

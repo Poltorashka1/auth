@@ -4,15 +4,21 @@ import (
 	apperrors "auth/internal/errors"
 	"fmt"
 	"strconv"
+	"strings"
 )
 
-func (t *TokenPair) Validate() error {
-	errors := &apperrors.ValidationErrors{}
-	if err := validateAccessToken(t.AccessToken); err != nil {
-		errors.Message = append(errors.Message, err.Error())
-	}
+func (s *CheckUserRoleData) Validate() error {
+	// todo validate
+	return nil
+}
 
-	if err := validateRefreshToken(t.RefreshToken); err != nil {
+func (a *AuthTokenPair) Validate() error {
+	errors := &apperrors.ValidationErrors{}
+	// if err := validateAccessToken(t.AccessToken); err != nil {
+	//	errors.Message = append(errors.Message, err.Error())
+	// }
+
+	if err := validateRefreshToken(a.RefreshToken); err != nil {
 		errors.Message = append(errors.Message, err.Error())
 	}
 
@@ -22,24 +28,21 @@ func (t *TokenPair) Validate() error {
 	return nil
 }
 
-func validateRefreshToken(refreshToken string) error {
-	if refreshToken == "" {
-		return apperrors.ErrRefreshToken
+func (s *SignOut) Validate() error {
+	errors := &apperrors.ValidationErrors{}
+	if err := validateRefreshToken(s.RefreshToken); err != nil {
+		errors.Message = append(errors.Message, err.Error())
 	}
-	return nil
 
-}
-
-func validateAccessToken(accessToken string) error {
-	if accessToken == "" {
-		return apperrors.ErrAccessToken
+	if len(errors.Message) > 0 {
+		return errors
 	}
 	return nil
 }
 
 func (s *SignUpUser) Validate() error {
 	errors := &apperrors.ValidationErrors{}
-	if err := validateName(s.Name); err != nil {
+	if err := validateName(s.Username); err != nil {
 		errors.Message = append(errors.Message, err.Error())
 	}
 
@@ -57,24 +60,28 @@ func (s *SignUpUser) Validate() error {
 	return nil
 }
 
-func (v *GetUserByNameOrID) Validate() error {
+func (g *GetUserByName) Validate() error {
 	var errors = new(apperrors.ValidationErrors)
-	if v.Field == "name" {
-		if err := validateName(v.Param); err != nil {
-			errors.Message = append(errors.Message, err.Error())
-		}
-	}
-
-	if v.Field == "id" {
-		if err := validateID(v.Param); err != nil {
-			errors.Message = append(errors.Message, err.Error())
-		}
+	if err := validateName(g.Name); err != nil {
+		errors.Message = append(errors.Message, err.Error())
 	}
 
 	if len(errors.Message) > 0 {
 		return errors
 	}
 
+	return nil
+}
+
+func (g *GetUserByID) Validate() error {
+	var errors = new(apperrors.ValidationErrors)
+	if err := validateID(g.ID); err != nil {
+		errors.Message = append(errors.Message, err.Error())
+	}
+
+	if len(errors.Message) > 0 {
+		return errors
+	}
 	return nil
 }
 
@@ -100,6 +107,9 @@ func (e *EmailVerify) Validate() error {
 		errors.Message = append(errors.Message, err.Error())
 	}
 
+	if err := validateToken(e.Token); err != nil {
+		errors.Message = append(errors.Message, err.Error())
+	}
 	// todo validate token
 	if len(errors.Message) > 0 {
 		return errors
@@ -107,15 +117,24 @@ func (e *EmailVerify) Validate() error {
 	return nil
 }
 
+func validateToken(token string) error {
+	if token == "" {
+		return fmt.Errorf("token is required")
+	}
+	return nil
+}
+
 func validateID(id string) error {
+
 	convID, err := strconv.Atoi(id)
+	if convID <= 0 {
+		return fmt.Errorf("id must be a positive number")
+	}
+
 	if err != nil {
 		return fmt.Errorf("id must be a number")
 	}
 
-	if convID < 0 {
-		return fmt.Errorf("id must be a positive number")
-	}
 	return nil
 }
 
@@ -148,17 +167,32 @@ func validateEmail(email string) error {
 }
 
 func validateName(name string) error {
-	if name == "" {
-		return fmt.Errorf("name is required")
+	if name != strings.ToLower(name) {
+		return fmt.Errorf("username must be in lower case")
 	}
 
 	if len(name) < 3 {
-		return fmt.Errorf("name must be at least 3 characters long")
+		return fmt.Errorf("username must be at least 3 characters long")
 	}
 
 	if len(name) > 100 {
-		return fmt.Errorf("name must be at most 100 characters long")
+		return fmt.Errorf("username must be at most 100 characters long")
 	}
 
+	return nil
+}
+
+func validateRefreshToken(refreshToken string) error {
+	if refreshToken == "" {
+		return apperrors.ErrRefreshToken
+	}
+	return nil
+
+}
+
+func validateAccessToken(accessToken string) error {
+	if accessToken == "" {
+		return apperrors.ErrAccessToken
+	}
 	return nil
 }

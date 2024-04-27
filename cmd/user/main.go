@@ -17,6 +17,9 @@ import (
 // @externalDocs.description  OpenAPI
 // @externalDocs.url          https://swagger.io/resources/open-api/
 
+// todo Api-Key
+// todo pagination
+
 func main() {
 	ctx := context.Background()
 

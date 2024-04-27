@@ -8,6 +8,8 @@ import (
 	"log"
 )
 
+// SignUp create new user and send verification email.
+// errors: apperrors.ValidationErrors, pgx.ErrNoRows, apperrors.ExistsError, apperrors.ErrSMTPSendMessage
 func (s *UserServ) SignUp(ctx context.Context, user serviceUserModel.SignUpUser) (int64, error) {
 	err := user.Validate()
 	if err != nil {
@@ -49,7 +51,7 @@ func (s *UserServ) SignUp(ctx context.Context, user serviceUserModel.SignUpUser)
 		return 0, err
 	}
 
-	err = s.smtp.SendEmail(user.Email, token, user.Name)
+	err = s.smtp.SendEmail(user.Email, token, user.Username)
 	if err != nil {
 		return 0, err
 	}

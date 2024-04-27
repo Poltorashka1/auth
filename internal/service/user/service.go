@@ -1,7 +1,7 @@
 package serviceUser
 
 import (
-	"auth/internal/client/db"
+	"auth/internal/db"
 	"auth/internal/repository"
 	serviceUserModel "auth/internal/service/user/model"
 	"auth/internal/smtp"
@@ -12,12 +12,16 @@ import (
 
 type UserService interface {
 	SignUp(ctx context.Context, user serviceUserModel.SignUpUser) (int64, error)
-	SignIn(ctx context.Context, user serviceUserModel.SignInUser) (*serviceUserModel.TokenPair, error)
-	// SignOut(ctx context.Context, token string) error
+	SignIn(ctx context.Context, user serviceUserModel.SignInUser) (*serviceUserModel.AuthTokenPair, error)
+	SignOut(ctx context.Context, token serviceUserModel.SignOut) error
 
-	GetUser(ctx context.Context, idOrName serviceUserModel.GetUserByNameOrID) (*serviceUserModel.User, error)
+	GetUserByID(ctx context.Context, userID serviceUserModel.GetUserByID) (*serviceUserModel.User, error)
+	GetUserByName(ctx context.Context, userName serviceUserModel.GetUserByName) (*serviceUserModel.User, error)
+
 	EmailVerify(ctx context.Context, verify serviceUserModel.EmailVerify) error
-	RefreshToken(ctx context.Context, token serviceUserModel.TokenPair) (*serviceUserModel.TokenPair, error)
+
+	GetAccessToken(ctx context.Context, token serviceUserModel.AuthTokenPair) (*serviceUserModel.AuthTokenPair, error)
+	CheckUserRole(context context.Context, data serviceUserModel.CheckUserRoleData) error
 }
 
 type UserServ struct {
