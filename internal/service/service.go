@@ -2,6 +2,7 @@ package service
 
 import (
 	"auth/internal/db"
+	"auth/internal/logger"
 	"auth/internal/repository"
 	serviceUser "auth/internal/service/user"
 	"auth/internal/smtp"
@@ -16,8 +17,8 @@ type service struct {
 	serviceUser.UserService
 }
 
-func New(repo repository.Repository, tx db.Transaction, smtp smtp.SMTP) Service {
+func New(repo repository.Repository, tx db.Transaction, smtp smtp.SMTP, log logger.Logger) Service {
 	return &service{
-		serviceUser.New(repo, tx, smtp),
+		serviceUser.New(repo, tx, smtp, log),
 	}
 }

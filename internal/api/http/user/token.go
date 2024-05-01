@@ -46,16 +46,9 @@ func (h *UserHandler) GetAccessToken(w http.ResponseWriter, r *http.Request) {
 	apiJson.JSON(w, response.Success(converter.ToHTTPRefreshToken(token), "Token"))
 }
 
-// todo new method
 func (h *UserHandler) GetAccessTokenOrError(w http.ResponseWriter, r *http.Request) error {
 	refreshToken, err := utils.GetRefreshToken(r)
 	if err != nil {
-		switch {
-		case errors.Is(err, apperrors.ErrRefreshTokenExpired):
-			apiJson.JSON(w, response.Error(err, http.StatusUnauthorized))
-		default:
-			apiJson.JSON(w, response.Error(err, http.StatusBadRequest))
-		}
 		return err
 	}
 
@@ -65,14 +58,6 @@ func (h *UserHandler) GetAccessTokenOrError(w http.ResponseWriter, r *http.Reque
 
 	token, err := h.serv.GetAccessToken(r.Context(), converter.HTTPToRefreshToken(inp))
 	if err != nil {
-		switch {
-		case errors.Is(err, apperrors.ErrWrongRefreshToken):
-			apiJson.JSON(w, response.Error(err, http.StatusUnauthorized))
-		case errors.Is(err, apperrors.ErrRefreshToken):
-			apiJson.JSON(w, response.Error(err, http.StatusConflict))
-		default:
-			apiJson.JSON(w, response.Error(err, http.StatusInternalServerError))
-		}
 		return err
 	}
 

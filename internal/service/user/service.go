@@ -2,11 +2,12 @@ package serviceUser
 
 import (
 	"auth/internal/db"
+	"auth/internal/logger"
 	"auth/internal/repository"
 	serviceUserModel "auth/internal/service/user/model"
 	"auth/internal/smtp"
 	"context"
-	"log"
+	"errors"
 	"os"
 )
 
@@ -28,6 +29,7 @@ type UserServ struct {
 	smtp       smtp.SMTP
 	repo       repository.Repository
 	tx         db.Transaction
+	log        logger.Logger
 	_jwtSecret string
 }
 
@@ -35,18 +37,17 @@ func (s *UserServ) JWTSecret() string {
 	return s._jwtSecret
 }
 
-func New(userRepo repository.Repository, tx db.Transaction, smtp smtp.SMTP) UserService {
+func New(userRepo repository.Repository, tx db.Transaction, smtp smtp.SMTP, log logger.Logger) UserService {
 	secret := os.Getenv("JWT_SECRET")
 	if secret == "" {
-		// todo logging
-		log.Fatal("JWT_SECRET is not set")
+		log.Fatal(errors.New("JWT_SECRET is not set"))
 	}
 
-	// todo logging
 	return &UserServ{
 		repo:       userRepo,
 		tx:         tx,
 		smtp:       smtp,
+		log:        log,
 		_jwtSecret: secret,
 	}
 }

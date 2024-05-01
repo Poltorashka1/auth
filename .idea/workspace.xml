@@ -5,8 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6381dba1-75e9-461e-9b27-1ed3ad584327" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/internal/config/redis.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/db/cache.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/db/redis/redis.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/repository/user/role.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/utils/json.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/auth.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/auth.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/0d514cda-817d-4a49-afb1-5a260943f9c5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0d514cda-817d-4a49-afb1-5a260943f9c5.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/api/http/response/response.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/api/http/response/response.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/api/http/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/api/http/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/api/http/user/get.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/api/http/user/get.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/api/http/user/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/api/http/user/handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/api/http/user/role.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/api/http/user/role.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/api/http/user/token.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/api/http/user/token.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/app/provider.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/provider.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/db/pg/pg.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/db/pg/pg.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/errors/error.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/errors/error.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/repository/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/repository/user/get.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/user/get.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/repository/user/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/user/repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/repository/user/route.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/user/route.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/repository/user/session.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/user/session.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/repository/user/signup.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/user/signup.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/service/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/service/service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/service/user/model/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/service/user/model/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/service/user/role.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/service/user/role.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/service/user/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/service/user/service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/service/user/signin.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/service/user/signin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/service/user/signup.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/service/user/signup.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/utils/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/utils/jwt.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,7 +53,7 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" url="file:///usr/lib/go" />
+  <component name="GOROOT" url="file://$PROJECT_DIR$/../../../../../Program Files/Go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -40,45 +72,50 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;Go Build.go build auth main.go.executor&quot;: &quot;Run&quot;,
-    &quot;Go Build.go build auth/cmd/user.executor&quot;: &quot;Run&quot;,
-    &quot;Go Test.TestSignUp in auth/internal/api/user/tests.executor&quot;: &quot;Run&quot;,
-    &quot;Makefile Target.generate.executor&quot;: &quot;Run&quot;,
-    &quot;Makefile Target.get-deps.executor&quot;: &quot;Run&quot;,
-    &quot;Makefile Target.get-qwe-deps.executor&quot;: &quot;Run&quot;,
-    &quot;Makefile Target.install-deps.executor&quot;: &quot;Run&quot;,
-    &quot;Makefile Target.lint.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.modules.automatic.dependencies.download&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;tesst&quot;,
-    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/killy/GolandProjects/github.com/killy/auth&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultGoTemplateProperty": "Go File",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Go Build.go build auth main.go.executor": "Run",
+    "Go Build.go build auth/cmd/user.executor": "Debug",
+    "Go Test.TestSignUp in auth/internal/api/user/tests.executor": "Run",
+    "Makefile Target.generate.executor": "Run",
+    "Makefile Target.get-deps.executor": "Run",
+    "Makefile Target.get-qwe-deps.executor": "Run",
+    "Makefile Target.install-deps.executor": "Run",
+    "Makefile Target.lint.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.automatic.dependencies.download": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "git-widget-placeholder": "tesst",
+    "go.import.settings.migrated": "true",
+    "go.sdk.automatically.set": "true",
+    "last_opened_file_path": "C:/Users/Poltorashka/GolandProjects/auth/auth/internal/utils",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "terminal"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Poltorashka\GolandProjects\auth\auth\internal\utils" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Poltorashka\GolandProjects\auth\auth\internal\utils" />
       <recent name="$PROJECT_DIR$/internal/repository/user" />
       <recent name="$PROJECT_DIR$/internal/smtp/templates" />
       <recent name="$PROJECT_DIR$/internal/service/user/validate" />
       <recent name="$PROJECT_DIR$/cert" />
-      <recent name="$PROJECT_DIR$/internal/logger" />
     </key>
   </component>
   <component name="RunManager" selected="Go Build.go build auth/cmd/user">
@@ -171,5 +208,31 @@
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/repository/user/session.go</url>
+          <line>34</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/repository/user/session.go</url>
+          <line>47</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/db/pg/pg.go</url>
+          <line>29</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/db/pg/pg.go</url>
+          <line>48</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

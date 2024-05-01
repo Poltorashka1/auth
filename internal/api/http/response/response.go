@@ -10,8 +10,14 @@ type ErrorResponse struct {
 }
 
 func Error(err error, status int) Response {
+	if err != nil {
+		return ErrorResponse{
+			Error:  err.Error(),
+			Status: status,
+		}
+	}
 	return ErrorResponse{
-		Error:  err.Error(),
+		Error:  "unknown error",
 		Status: status,
 	}
 }

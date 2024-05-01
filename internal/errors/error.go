@@ -7,6 +7,7 @@ import (
 )
 
 var (
+	ErrServerError            = errors.New("server error")
 	ErrUserAlreadyExists      = newAlreadyExistsError("user with this name and email already exists")
 	ErrUserNameAlreadyExists  = newAlreadyExistsError("user with this name already exists")
 	ErrUserEmailAlreadyExists = newAlreadyExistsError("user with this email already exists")
@@ -16,12 +17,13 @@ var (
 	ErrWrongPassword          = errors.New("wrong password")
 	ErrWrongVerifyToken       = errors.New("wrong verification token")
 	ErrUserNotActivated       = errors.New("user not activated")
-	ErrAccessToken            = errors.New("access token error")
-	ErrRefreshToken           = errors.New("refresh token error")
-	ErrWrongRefreshToken      = errors.New("wrong refresh token")
-	ErrRefreshTokenCookie     = errors.New("refresh token cookie error")
-	ErrRefreshTokenExpired    = errors.New("refresh token expired")
-	ErrAttemptToRefreshToken  = errors.New("error attempt to refresh token")
+	ErrAccessToken            = newTokenError("access token error")
+	ErrRefreshToken           = newTokenError("refresh token error")
+	ErrWrongRefreshToken      = newTokenError("wrong refresh token")
+	ErrRefreshTokenCookie     = newTokenError("refresh token cookie error")
+	ErrRefreshTokenExpired    = newTokenError("refresh token expired")
+	ErrAttemptToRefreshToken  = newTokenError("error attempt to refresh token")
+	ErrRolesNotFound          = errors.New("roles not found")
 
 	// ErrUserNotFound           = errors.New("user not found")
 )
@@ -32,10 +34,32 @@ type ExistsError interface {
 	error
 }
 
+type TokenError interface {
+	TokenError() bool
+	error
+}
+
+type tokenError struct {
+	message string
+}
+
+func (e *tokenError) Error() string {
+	return e.message
+}
+
+func (e *tokenError) TokenError() bool {
+	return true
+}
+
+func newTokenError(err string) error {
+	return &tokenError{message: err}
+}
+
 type alreadyExistsError struct {
 	message string
 }
 
+// todo return error
 func newAlreadyExistsError(err string) *alreadyExistsError {
 	return &alreadyExistsError{message: err}
 }

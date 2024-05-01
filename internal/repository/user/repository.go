@@ -8,7 +8,8 @@ import (
 )
 
 type UserRepository interface {
-	SignUp(ctx context.Context, user serviceUserModel.SignUpUser, token string) (int64, error)
+	CreateUser(ctx context.Context, user serviceUserModel.SignUpUser, token string) (int64, error)
+
 	SignIn(ctx context.Context, user serviceUserModel.SignInUser) (string, error)
 	SignOut(ctx context.Context, refreshToken string) error
 
@@ -21,6 +22,7 @@ type UserRepository interface {
 	CheckUserVerify(ctx context.Context, email string) (string, error)
 
 	ActivateUser(ctx context.Context, email string) error
+	AddRole(ctx context.Context, userID int64, roleID int) error
 
 	CreateSession(ctx context.Context, session serviceUserModel.CreateSession) error
 	GetSession(ctx context.Context, refreshToken string) (*serviceUserModel.Session, error)
@@ -31,13 +33,15 @@ type UserRepository interface {
 
 type UserRepos struct {
 	// db  db.Client
-	db  db.DB
-	log logger.Logger
+	db    db.DB
+	cache db.Cache
+	log   logger.Logger
 }
 
-func New(db db.DB, log logger.Logger) UserRepository {
+func New(db db.DB, cache db.Cache, log logger.Logger) UserRepository {
 	return &UserRepos{
-		db:  db,
-		log: log,
+		db:    db,
+		cache: cache,
+		log:   log,
 	}
 }

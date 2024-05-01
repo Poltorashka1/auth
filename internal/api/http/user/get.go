@@ -27,7 +27,6 @@ func (h *UserHandler) GetUser(w http.ResponseWriter, r *http.Request) {
 	// todo check all this and fix error
 	var user *serviceUserModel.User
 	var err error
-	// todo check user role
 
 	if r.URL.Query().Has("name") {
 		name := r.URL.Query().Get("name")
@@ -41,13 +40,15 @@ func (h *UserHandler) GetUser(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		// todo понять как это работает
-		switch customErr := err.(type) {
-		case *apperrors.UserNotFoundError:
-			apiJson.JSON(w, response.Error(customErr, http.StatusNotFound))
-		case *apperrors.ValidationErrors:
-			apiJson.JSON(w, response.Error(customErr, http.StatusBadRequest))
+		var UNF *apperrors.UserNotFoundError
+		var ValidationErr *apperrors.ValidationErrors
+		switch {
+		case errors.As(err, &UNF):
+			apiJson.JSON(w, response.Error(UNF, http.StatusNotFound))
+		case errors.Is(err, ValidationErr):
+			apiJson.JSON(w, response.Error(ValidationErr, http.StatusBadRequest))
 		default:
-			apiJson.JSON(w, response.Error(err, http.StatusInternalServerError))
+			apiJson.JSON(w, response.Error(apperrors.ErrServerError, http.StatusInternalServerError))
 		}
 		return
 	}

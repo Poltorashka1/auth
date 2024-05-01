@@ -52,7 +52,6 @@ func (p *pg) QueryContext(ctx context.Context, q db.Query) (pgx.Rows, error) {
 	if tx, ok := ctx.Value("tx").(pgx.Tx); ok {
 		return tx.Query(ctx, q.QueryRaw, q.Args...)
 	}
-
 	return p.dbc.Query(ctx, q.QueryRaw, q.Args...)
 }
 

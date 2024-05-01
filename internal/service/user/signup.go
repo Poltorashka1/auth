@@ -46,7 +46,13 @@ func (s *UserServ) SignUp(ctx context.Context, user serviceUserModel.SignUpUser)
 		return 0, err
 	}
 
-	id, err := s.repo.SignUp(txCtx, user, token)
+	id, err := s.repo.CreateUser(txCtx, user, token)
+	if err != nil {
+		return 0, err
+	}
+
+	// todo edit 2 на что то более понятное
+	err = s.repo.AddRole(txCtx, id, 2)
 	if err != nil {
 		return 0, err
 	}

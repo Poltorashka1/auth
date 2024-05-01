@@ -14,6 +14,7 @@ import (
 // todo mb return user+session?
 
 func (r *UserRepos) GetUserByName(ctx context.Context, name string) (*serviceUserModel.User, error) {
+	const op = "repoUser.GetUserByName"
 
 	query := db.NewQuery(
 		"GetUserByName",
@@ -35,6 +36,8 @@ func (r *UserRepos) GetUserByName(ctx context.Context, name string) (*serviceUse
 		if errors.Is(err, pgx.ErrNoRows) {
 			return nil, apperrors.ErrUserNotFound("name", name)
 		}
+
+		r.log.ErrorOp(op, err)
 		return nil, err
 	}
 
@@ -42,10 +45,12 @@ func (r *UserRepos) GetUserByName(ctx context.Context, name string) (*serviceUse
 }
 
 func (r *UserRepos) GetUserByID(ctx context.Context, ID string) (*serviceUserModel.User, error) {
+	const op = "repoUser.GetUserByID"
+
 	query := db.NewQuery(
 		"GetUserById",
 		`
- 				select t1.id, username, email, created_at, active, password, STRING_AGG(t3.name, ', ') As roles
+ 				select t1.id, t1.username, t1.email, t1.created_at, t1.active, t1.password, STRING_AGG(t3.name, ', ') As roles
 				from "Users" as t1
          			join "UserRoles" as t2 on t1.id = t2.user_id
          			join "Roles" as t3 on t2.role_id = t3.id
@@ -63,6 +68,8 @@ func (r *UserRepos) GetUserByID(ctx context.Context, ID string) (*serviceUserMod
 		if errors.Is(err, pgx.ErrNoRows) {
 			return nil, apperrors.ErrUserNotFound("id", ID)
 		}
+
+		r.log.ErrorOp(op, err)
 		return nil, err
 	}
 
@@ -70,9 +77,11 @@ func (r *UserRepos) GetUserByID(ctx context.Context, ID string) (*serviceUserMod
 }
 
 func (r *UserRepos) GetUserByEmail(ctx context.Context, email string) (*serviceUserModel.User, error) {
+	const op = "repoUser.GetUserByEmail"
+
 	q := db.NewQuery(
 		"GetUserByEmail",
-		"select id, name, email, active, password from Users where email = $1",
+		`select id, username, email, active, password from "Users" where email = $1`,
 		[]interface{}{email},
 	)
 
@@ -83,6 +92,7 @@ func (r *UserRepos) GetUserByEmail(ctx context.Context, email string) (*serviceU
 		if errors.Is(err, pgx.ErrNoRows) {
 			return nil, apperrors.ErrUserNotFound("email", email)
 		}
+		r.log.ErrorOp(op, err)
 		return nil, err
 	}
 
@@ -102,9 +112,10 @@ func toUser(user *repoUserModel.User) *serviceUserModel.User {
 	}
 }
 
-// todo mb in other dir role
-
+// todo in Roles dir
 func (r *UserRepos) GetUserRoles(ctx context.Context, userID int) (string, error) {
+	const op = "repoRoles.GetUserRoles"
+
 	q := db.NewQuery(
 		"GetUserRoles",
 		`
@@ -119,9 +130,13 @@ func (r *UserRepos) GetUserRoles(ctx context.Context, userID int) (string, error
 
 	var roles string
 
-	// todo возможно есть ошибка отсутствия ролей, проверить
 	err := r.db.ScanOneContext(ctx, &roles, q)
 	if err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			return "", apperrors.ErrRolesNotFound
+		}
+
+		r.log.ErrorOp(op, err)
 		return "", err
 	}
 

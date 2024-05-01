@@ -15,8 +15,8 @@ type repository struct {
 	repositoryUser.UserRepository
 }
 
-func New(db db.DB, log logger.Logger) Repository {
+func New(db db.DB, cache db.Cache, log logger.Logger) Repository {
 	return &repository{
-		repositoryUser.New(db, log),
+		repositoryUser.New(db, cache, log),
 	}
 }

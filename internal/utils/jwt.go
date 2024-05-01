@@ -96,6 +96,8 @@ func VerifyToken(tokenString, secret string) (*apiUserModel.TokenData, error) {
 	return data, nil
 }
 
+// todo проверить работу фукнции
+
 func AddTokenPairToClient(w http.ResponseWriter, token *serviceUserModel.AuthTokenPair) {
 	w.Header().Add("Authorization", token.AccessToken)
 	http.SetCookie(w, &http.Cookie{

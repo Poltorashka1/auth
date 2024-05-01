@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-func (r *UserRepos) SignUp(ctx context.Context, user serviceUserModel.SignUpUser, token string) (int64, error) {
+func (r *UserRepos) CreateUser(ctx context.Context, user serviceUserModel.SignUpUser, token string) (int64, error) {
 	var id int64
 	q := db.NewQuery(
 		"SignUp",

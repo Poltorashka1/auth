@@ -9,13 +9,13 @@ import (
 
 // CheckUserRole
 // errors: apperrors.ValidationError
-func (s *UserServ) CheckUserRole(context context.Context, data serviceUserModel.CheckUserRoleData) error {
+func (s *UserServ) CheckUserRole(ctx context.Context, data serviceUserModel.CheckUserRoleData) error {
 	err := data.Validate()
 	if err != nil {
 		return err
 	}
 
-	role, err := s.repo.GetRouteRole(context, data)
+	role, err := s.repo.GetRouteRole(ctx, data)
 	if err != nil {
 		return err
 	}

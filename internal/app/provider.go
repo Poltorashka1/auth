@@ -8,6 +8,7 @@ import (
 	"auth/internal/config"
 	"auth/internal/db"
 	"auth/internal/db/pg"
+	cache "auth/internal/db/redis"
 	"auth/internal/logger"
 	"auth/internal/repository"
 	"auth/internal/service"
@@ -18,10 +19,11 @@ import (
 type provider struct {
 	log logger.Logger
 
-	pgConfig   config.PostgresConfig
-	grpcConfig config.GRPCConfig
-	httpConfig config.HTTPConfig
-	smtpConfig config.SMTPConfig
+	pgConfig    config.PostgresConfig
+	grpcConfig  config.GRPCConfig
+	httpConfig  config.HTTPConfig
+	smtpConfig  config.SMTPConfig
+	redisConfig config.RedisConfig
 
 	userAPIgRPC *apiUserGRPC.Implementation // todo rename
 	userAPIHTTP *apiUserHTTP.UserHandler
@@ -30,6 +32,7 @@ type provider struct {
 
 	// pgPool         db.Client
 	pgPool     db.DB
+	cache      db.Cache
 	smtpClient smtp.SMTP
 
 	router router.Router
@@ -45,6 +48,15 @@ func (p *provider) Logger() logger.Logger {
 		p.log = l
 	}
 	return p.log
+}
+
+func (p *provider) RedisConfig() config.RedisConfig {
+	if p.redisConfig == nil {
+		cfg := config.NewRedisConfig()
+
+		p.redisConfig = cfg
+	}
+	return p.redisConfig
 }
 
 func (p *provider) HTTPConfig() config.HTTPConfig {
@@ -118,6 +130,16 @@ func (p *provider) SMTPClient() smtp.SMTP {
 	return p.smtpClient
 }
 
+func (p *provider) Cache() db.Cache {
+	if p.cache == nil {
+		c := cache.New(p.RedisConfig())
+		p.cache = c
+
+		closer.Add(c.Close)
+	}
+	return p.cache
+}
+
 func (p *provider) PgPool(ctx context.Context) db.DB { // db.Client
 	const op = "app.PgPool"
 
@@ -140,7 +162,7 @@ func (p *provider) PgPool(ctx context.Context) db.DB { // db.Client
 
 func (p *provider) Repository(ctx context.Context) repository.Repository {
 	if p.repository == nil {
-		repo := repository.New(p.PgPool(ctx), p.Logger())
+		repo := repository.New(p.PgPool(ctx), p.Cache(), p.Logger())
 		p.repository = repo
 	}
 	return p.repository
@@ -148,14 +170,14 @@ func (p *provider) Repository(ctx context.Context) repository.Repository {
 
 func (p *provider) Service(ctx context.Context) service.Service {
 	if p.service == nil {
-		p.service = service.New(p.Repository(ctx), p.PgPool(ctx), p.SMTPClient())
+		p.service = service.New(p.Repository(ctx), p.PgPool(ctx), p.SMTPClient(), p.Logger())
 	}
 	return p.service
 }
 
 func (p *provider) UserAPIHTTP(ctx context.Context) *apiUserHTTP.UserHandler {
 	if p.userAPIHTTP == nil {
-		h := apiUserHTTP.New(p.Service(ctx), p.Logger())
+		h := apiUserHTTP.New(p.Service(ctx), p.Logger(), p.HTTPConfig().JwtSecret())
 		p.userAPIHTTP = h
 	}
 

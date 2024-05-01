@@ -10,6 +10,8 @@ import (
 )
 
 func (r *UserRepos) CreateSession(ctx context.Context, session serviceModel.CreateSession) error {
+	const op = "repoUser.CreateSession"
+
 	q := db.NewQuery(
 		"CreateSession",
 		`
@@ -23,6 +25,7 @@ func (r *UserRepos) CreateSession(ctx context.Context, session serviceModel.Crea
 
 	_, err := r.db.ExecContext(ctx, q)
 	if err != nil {
+		r.log.ErrorOp(op, err)
 		return err
 	}
 
@@ -30,10 +33,11 @@ func (r *UserRepos) CreateSession(ctx context.Context, session serviceModel.Crea
 }
 
 func (r *UserRepos) GetSession(ctx context.Context, refreshToken string) (*serviceModel.Session, error) {
+	const op = "repoUser.GetSession"
 	q := db.NewQuery(
 		"GetSession",
 		`
-					select * from "Session"
+					select user_id, username, session_token from "Session"
 					where session_token = $1
 					`,
 		[]interface{}{refreshToken},
@@ -46,8 +50,8 @@ func (r *UserRepos) GetSession(ctx context.Context, refreshToken string) (*servi
 		if errors.Is(err, pgx.ErrNoRows) {
 			return nil, apperrors.ErrWrongRefreshToken
 		}
+		r.log.ErrorOp(op, err)
 		return nil, err
 	}
-
 	return session, nil
 }

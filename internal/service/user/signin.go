@@ -61,7 +61,7 @@ func createSession(session serviceUserModel.Session) serviceUserModel.CreateSess
 		Username:     session.Username,
 		RefreshToken: session.RefreshToken,
 
-		// todo important time not work because it dont need now
+		// todo IMPORTANT time not work because it dont need now
 		Expires: time.Now(),
 	}
 }

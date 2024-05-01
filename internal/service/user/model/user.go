@@ -75,7 +75,7 @@ func (u *User) CheckPassword(passwordToCheck string) error {
 
 type Session struct {
 	UserID       int    `db:"user_id"`
-	Username     string `db:"name"`
+	Username     string `db:"username"`
 	RefreshToken string `db:"session_token"`
 }
 
