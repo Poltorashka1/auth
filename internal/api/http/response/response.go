@@ -5,20 +5,24 @@ type Response interface {
 }
 
 type ErrorResponse struct {
-	Error  string `json:"error"`
-	Status int    `json:"status"`
+	Message string `json:"error"`
+	Status  int    `json:"status"`
+}
+
+func (e *ErrorResponse) Error() string {
+	return e.Message
 }
 
 func Error(err error, status int) Response {
 	if err != nil {
 		return ErrorResponse{
-			Error:  err.Error(),
-			Status: status,
+			Message: err.Error(),
+			Status:  status,
 		}
 	}
 	return ErrorResponse{
-		Error:  "unknown error",
-		Status: status,
+		Message: "unknown error",
+		Status:  status,
 	}
 }
 

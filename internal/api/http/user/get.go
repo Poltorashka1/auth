@@ -10,9 +10,9 @@ import (
 	"net/http"
 )
 
-// GetUser
-// @Summary      Get user
-// @Description  Get user by name or id
+// Users
+// @Summary      Get users
+// @Description  Get users or user by name or id
 // @Tags         user
 // @Accept       json
 // @Produce      json
@@ -22,20 +22,26 @@ import (
 // @Failure      400  {object}  response.ErrorResponse
 // @Failure      404  {object}  response.ErrorResponse
 // @Failure      500  {object}  response.ErrorResponse
-// @Router       /user [get]
-func (h *UserHandler) GetUser(w http.ResponseWriter, r *http.Request) {
-	// todo check all this and fix error
+// @Router       /users [get]
+func (h *UserHandler) Users(w http.ResponseWriter, r *http.Request) {
+	const op = "apiUser.Users"
+
 	var user *serviceUserModel.User
+	var users *serviceUserModel.Users
 	var err error
 
-	if r.URL.Query().Has("name") {
-		name := r.URL.Query().Get("name")
-		user, err = h.serv.GetUserByName(r.Context(), converter.HTTPToGetUserByName(name))
+	if r.URL.Query().Has("username") {
+		name := r.URL.Query().Get("username")
+		user, err = h.serv.UserByName(r.Context(), converter.HTTPToGetUserByName(name))
 	}
 
 	if r.URL.Query().Has("id") {
 		id := r.URL.Query().Get("id")
-		user, err = h.serv.GetUserByID(r.Context(), converter.HTTPToGetUserByID(id))
+		user, err = h.serv.UserByID(r.Context(), converter.HTTPToGetUserByID(id))
+	}
+
+	if user == nil && err == nil {
+		users, err = h.serv.Users(r.Context())
 	}
 
 	if err != nil {
@@ -45,18 +51,18 @@ func (h *UserHandler) GetUser(w http.ResponseWriter, r *http.Request) {
 		switch {
 		case errors.As(err, &UNF):
 			apiJson.JSON(w, response.Error(UNF, http.StatusNotFound))
-		case errors.Is(err, ValidationErr):
+		case errors.As(err, &ValidationErr):
 			apiJson.JSON(w, response.Error(ValidationErr, http.StatusBadRequest))
 		default:
+			h.log.ErrorOp(op, err)
 			apiJson.JSON(w, response.Error(apperrors.ErrServerError, http.StatusInternalServerError))
 		}
 		return
 	}
 
-	if user == nil {
-		apiJson.JSON(w, response.Error(errors.New("name or id required"), http.StatusBadRequest))
+	if users == nil {
+		apiJson.JSON(w, response.Success(converter.ToHTTPUser(user)))
 		return
 	}
-
-	apiJson.JSON(w, response.Success(converter.ToHTTPUser(user), "User"))
+	apiJson.JSON(w, response.Success(converter.ToHTTPUsers(users)))
 }

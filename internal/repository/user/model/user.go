@@ -25,3 +25,7 @@ type User struct {
 	// from table UserRoles
 	Roles string `db:"roles"`
 }
+
+type Users struct {
+	Users []User
+}

@@ -17,15 +17,18 @@ var (
 	ErrWrongPassword          = errors.New("wrong password")
 	ErrWrongVerifyToken       = errors.New("wrong verification token")
 	ErrUserNotActivated       = errors.New("user not activated")
-	ErrAccessToken            = newTokenError("access token error")
-	ErrRefreshToken           = newTokenError("refresh token error")
-	ErrWrongRefreshToken      = newTokenError("wrong refresh token")
-	ErrRefreshTokenCookie     = newTokenError("refresh token cookie error")
-	ErrRefreshTokenExpired    = newTokenError("refresh token expired")
-	ErrAttemptToRefreshToken  = newTokenError("error attempt to refresh token")
-	ErrRolesNotFound          = errors.New("roles not found")
-
+	//ErrAccessToken            = newTokenError("access token error")
+	ErrRefreshToken          = newTokenError("refresh token error")
+	ErrWrongRefreshToken     = newTokenError("wrong refresh token")
+	ErrRefreshTokenCookie    = newTokenError("refresh token cookie error")
+	ErrRefreshTokenExpired   = newTokenError("refresh token expired")
+	ErrAttemptToRefreshToken = newTokenError("error attempt to refresh token")
+	ErrRolesNotFound         = errors.New("roles not found")
+	ErrForbidden             = errors.New("access denied")
+	ErrUnauthorized          = errors.New("please login")
+	ErrRouteNotFound         = errors.New("route not found")
 	// ErrUserNotFound           = errors.New("user not found")
+
 )
 
 // ExistsError interface for checking if user name or email already exists
@@ -99,3 +102,15 @@ func (e *UserNotFoundError) Error() string {
 // func ErrNameOrIdRequired() *NameOrIdRequiredError {
 //	return &NameOrIdRequiredError{message: "name or id is required"}
 //}
+
+type AccessError struct {
+	Message string
+}
+
+func (e *AccessError) Error() string {
+	return e.Message
+}
+
+func ErrAccessToken(err string) *AccessError {
+	return &AccessError{Message: err}
+}

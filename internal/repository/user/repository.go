@@ -13,9 +13,11 @@ type UserRepository interface {
 	SignIn(ctx context.Context, user serviceUserModel.SignInUser) (string, error)
 	SignOut(ctx context.Context, refreshToken string) error
 
-	GetUserByID(ctx context.Context, id string) (*serviceUserModel.User, error)
-	GetUserByName(ctx context.Context, username string) (*serviceUserModel.User, error)
-	GetUserByEmail(ctx context.Context, email string) (*serviceUserModel.User, error)
+	Users(ctx context.Context) (*serviceUserModel.Users, error)
+	UserByID(ctx context.Context, id string) (*serviceUserModel.User, error)
+	UserByName(ctx context.Context, username string) (*serviceUserModel.User, error)
+	UserByEmail(ctx context.Context, email string) (*serviceUserModel.User, error)
+	// todo посмотреть откуда берутся роли
 	GetUserRoles(ctx context.Context, userID int) (string, error)
 
 	CheckUserByNameAndEmail(ctx context.Context, param serviceUserModel.SignUpUser) error
@@ -25,8 +27,9 @@ type UserRepository interface {
 	AddRole(ctx context.Context, userID int64, roleID int) error
 
 	CreateSession(ctx context.Context, session serviceUserModel.CreateSession) error
-	GetSession(ctx context.Context, refreshToken string) (*serviceUserModel.Session, error)
-	GetRouteRole(ctx context.Context, data serviceUserModel.CheckUserRoleData) ([]string, error)
+	Session(ctx context.Context, refreshToken string) (*serviceUserModel.Session, error)
+
+	RouteRole(ctx context.Context, route string) (string, error)
 
 	DeleteVerifyToken(ctx context.Context, email string) error
 }

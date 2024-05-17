@@ -132,7 +132,7 @@ func (p *provider) SMTPClient() smtp.SMTP {
 
 func (p *provider) Cache() db.Cache {
 	if p.cache == nil {
-		c := cache.New(p.RedisConfig())
+		c := cache.New(p.RedisConfig(), p.Logger())
 		p.cache = c
 
 		closer.Add(c.Close)

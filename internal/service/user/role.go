@@ -1,24 +1,36 @@
 package serviceUser
 
 import (
+	apperrors "auth/internal/errors"
 	serviceUserModel "auth/internal/service/user/model"
 	"context"
+	"strings"
 )
 
 // todo new dir roles
+// todo rename to CheckUserAccess
 
 // CheckUserRole
-// errors: apperrors.ValidationError
+// errors: apperrors.ValidationErrors, apperrors.ErrForbidden
 func (s *UserServ) CheckUserRole(ctx context.Context, data serviceUserModel.CheckUserRoleData) error {
 	err := data.Validate()
 	if err != nil {
 		return err
 	}
 
-	role, err := s.repo.GetRouteRole(ctx, data)
+	roles, err := s.repo.RouteRole(ctx, data.Route)
 	if err != nil {
 		return err
 	}
-	_ = role
-	return nil
+	routeRole := strings.Split(roles, ", ")
+
+	for _, role := range data.UserRole {
+		for _, accessRole := range routeRole {
+			if role == accessRole {
+				return nil
+			}
+		}
+	}
+
+	return apperrors.ErrForbidden
 }

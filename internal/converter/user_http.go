@@ -28,9 +28,9 @@ func HTTPToSignIn(req apiUserModel.SignInUser) serviceUserModel.SignInUser {
 	}
 }
 
-func HTTPToRefreshToken(inp *apiUserModel.AuthTokenPair) serviceUserModel.AuthTokenPair {
-	return serviceUserModel.AuthTokenPair{
-		RefreshToken: inp.RefreshToken,
+func HTTPToRefreshToken(refreshToken string) serviceUserModel.RefreshToken {
+	return serviceUserModel.RefreshToken{
+		RefreshToken: refreshToken,
 	}
 }
 
@@ -48,15 +48,26 @@ func ToHTTPUser(user *serviceUserModel.User) *apiUserModel.User {
 		Email:     user.Email,
 		Role:      strings.Join(user.Roles, ", "),
 		Password:  user.Password,
+		Active:    user.Active,
 		CreatedAt: user.CreatedAt,
 	}
 }
 
-func HTTPToGetUserByName(name string) serviceUserModel.GetUserByName {
-	return serviceUserModel.GetUserByName{Name: name}
+func ToHTTPUsers(users *serviceUserModel.Users) *apiUserModel.Users {
+	u := &apiUserModel.Users{}
+
+	for _, us := range users.Users {
+		u.Users = append(u.Users, *ToHTTPUser(&us))
+	}
+
+	return u
 }
-func HTTPToGetUserByID(id string) serviceUserModel.GetUserByID {
-	return serviceUserModel.GetUserByID{ID: id}
+
+func HTTPToGetUserByName(name string) serviceUserModel.UserByName {
+	return serviceUserModel.UserByName{Name: name}
+}
+func HTTPToGetUserByID(id string) serviceUserModel.UserByID {
+	return serviceUserModel.UserByID{ID: id}
 }
 
 func HTTPToSignOut(token string) serviceUserModel.SignOut {
@@ -66,7 +77,7 @@ func HTTPToSignOut(token string) serviceUserModel.SignOut {
 func ToCheckUserRole(data *apiUserModel.CheckUserRoleData) serviceUserModel.CheckUserRoleData {
 	return serviceUserModel.CheckUserRoleData{
 		Username: data.Username,
-		UserRole: data.UserRole,
+		UserRole: strings.Split(data.UserRole, ", "),
 		Route:    data.Route,
 	}
 }

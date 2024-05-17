@@ -6,13 +6,17 @@ import (
 	"context"
 )
 
-func (s *UserServ) GetAccessToken(ctx context.Context, token serviceUserModel.AuthTokenPair) (*serviceUserModel.AuthTokenPair, error) {
-	err := token.Validate()
+// todo возможно стоит передавать id пользователя
+
+// AccessToken - errors : apperrors.ErrWrongRefreshToken,
+func (s *UserServ) AccessToken(ctx context.Context, refreshToken serviceUserModel.RefreshToken) (*serviceUserModel.AuthTokenPair, error) {
+	err := refreshToken.Validate()
 	if err != nil {
 		return nil, err
 	}
 
-	session, err := s.repo.GetSession(ctx, token.RefreshToken)
+	// todo delete но не факт если не найху решение
+	session, err := s.repo.Session(ctx, refreshToken.RefreshToken)
 	if err != nil {
 		return nil, err
 	}
@@ -32,9 +36,18 @@ func (s *UserServ) GetAccessToken(ctx context.Context, token serviceUserModel.Au
 		return nil, err
 	}
 
-	err = s.repo.CreateSession(ctx, createSession(*session))
+	ses := serviceUserModel.CreateSession{
+		UserID:       session.UserID,
+		Username:     session.Username,
+		RefreshToken: newTokenPair.RefreshToken,
+		// todo
+		//Expires:
+	}
+
+	err = s.repo.CreateSession(ctx, ses)
 	if err != nil {
 		return nil, err
 	}
+
 	return newTokenPair, nil
 }

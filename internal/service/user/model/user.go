@@ -10,11 +10,15 @@ type AuthTokenPair struct {
 	AccessToken  string
 }
 
-type GetUserByID struct {
+type RefreshToken struct {
+	RefreshToken string
+}
+
+type UserByID struct {
 	ID string
 }
 
-type GetUserByName struct {
+type UserByName struct {
 	Name string
 }
 
@@ -51,9 +55,9 @@ type TokenData struct {
 }
 
 type CheckUserRoleData struct {
-	Username string `db:"username"`
-	UserRole string `db:"role"`
-	Route    string `db:"route"`
+	Username string   `db:"username"`
+	UserRole []string `db:"role"`
+	Route    string   `db:"route"`
 }
 
 // User - user from data base
@@ -66,7 +70,7 @@ type User struct {
 	Active    bool      `db:"active"`
 	CreatedAt time.Time `db:"created_at"`
 	// from table UserRoles
-	Roles []string `db:"roles"`
+	Roles []string `db:"roles, omitempty"`
 }
 
 func (u *User) CheckPassword(passwordToCheck string) error {
@@ -93,4 +97,8 @@ type CreateSession struct {
 	Username     string
 	RefreshToken string
 	Expires      time.Time
+}
+
+type Users struct {
+	Users []User
 }

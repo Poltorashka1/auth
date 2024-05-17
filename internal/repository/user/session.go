@@ -32,7 +32,7 @@ func (r *UserRepos) CreateSession(ctx context.Context, session serviceModel.Crea
 	return nil
 }
 
-func (r *UserRepos) GetSession(ctx context.Context, refreshToken string) (*serviceModel.Session, error) {
+func (r *UserRepos) Session(ctx context.Context, refreshToken string) (*serviceModel.Session, error) {
 	const op = "repoUser.GetSession"
 	q := db.NewQuery(
 		"GetSession",

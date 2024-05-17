@@ -16,12 +16,14 @@ type UserService interface {
 	SignIn(ctx context.Context, user serviceUserModel.SignInUser) (*serviceUserModel.AuthTokenPair, error)
 	SignOut(ctx context.Context, token serviceUserModel.SignOut) error
 
-	GetUserByID(ctx context.Context, userID serviceUserModel.GetUserByID) (*serviceUserModel.User, error)
-	GetUserByName(ctx context.Context, userName serviceUserModel.GetUserByName) (*serviceUserModel.User, error)
+	// todo delete get
+	UserByID(ctx context.Context, id serviceUserModel.UserByID) (*serviceUserModel.User, error)
+	UserByName(ctx context.Context, username serviceUserModel.UserByName) (*serviceUserModel.User, error)
+	Users(ctx context.Context) (*serviceUserModel.Users, error)
 
 	EmailVerify(ctx context.Context, verify serviceUserModel.EmailVerify) error
 
-	GetAccessToken(ctx context.Context, token serviceUserModel.AuthTokenPair) (*serviceUserModel.AuthTokenPair, error)
+	AccessToken(ctx context.Context, refreshToken serviceUserModel.RefreshToken) (*serviceUserModel.AuthTokenPair, error)
 	CheckUserRole(context context.Context, data serviceUserModel.CheckUserRoleData) error
 }
 

@@ -17,7 +17,7 @@ func (s *UserServ) SignIn(ctx context.Context, signIn serviceUserModel.SignInUse
 		return nil, err
 	}
 
-	user, err := s.repo.GetUserByEmail(ctx, signIn.Email)
+	user, err := s.repo.UserByEmail(ctx, signIn.Email)
 	if err != nil {
 		return nil, err
 	}

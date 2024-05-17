@@ -3,7 +3,6 @@ package apiUser
 import (
 	apiJson "auth/internal/api/http/json"
 	"auth/internal/api/http/response"
-	apiUserModel "auth/internal/api/http/user/model"
 	"auth/internal/converter"
 	apperrors "auth/internal/errors"
 	"auth/internal/utils"
@@ -13,7 +12,7 @@ import (
 
 // GetAccessToken return access and refresh tokens if refresh token is valid
 func (h *UserHandler) GetAccessToken(w http.ResponseWriter, r *http.Request) {
-	refreshToken, err := utils.GetRefreshToken(r)
+	refreshToken, err := utils.RefreshToken(r)
 	if err != nil {
 		switch {
 		case errors.Is(err, apperrors.ErrRefreshTokenExpired):
@@ -24,11 +23,7 @@ func (h *UserHandler) GetAccessToken(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var inp = &apiUserModel.AuthTokenPair{
-		RefreshToken: refreshToken,
-	}
-
-	token, err := h.serv.GetAccessToken(r.Context(), converter.HTTPToRefreshToken(inp))
+	tokenPair, err := h.serv.AccessToken(r.Context(), converter.HTTPToRefreshToken(refreshToken))
 	if err != nil {
 		switch {
 		case errors.Is(err, apperrors.ErrWrongRefreshToken):
@@ -41,27 +36,25 @@ func (h *UserHandler) GetAccessToken(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	utils.AddTokenPairToClient(w, token)
+	utils.AddTokenPairToClient(w, tokenPair)
 
-	apiJson.JSON(w, response.Success(converter.ToHTTPRefreshToken(token), "Token"))
+	apiJson.JSON(w, response.Success(converter.ToHTTPRefreshToken(tokenPair), "Token"))
 }
 
-func (h *UserHandler) GetAccessTokenOrError(w http.ResponseWriter, r *http.Request) error {
-	refreshToken, err := utils.GetRefreshToken(r)
-	if err != nil {
-		return err
-	}
+// todo возможно стоит убрать запись в w отсюда и перенести в другое место
 
-	var inp = &apiUserModel.AuthTokenPair{
-		RefreshToken: refreshToken,
-	}
-
-	token, err := h.serv.GetAccessToken(r.Context(), converter.HTTPToRefreshToken(inp))
-	if err != nil {
-		return err
-	}
-
-	utils.AddTokenPairToClient(w, token)
-
-	return nil
-}
+//func (h *UserHandler) GetAccessTokenOrError(w http.ResponseWriter, r *http.Request) (tokenString string, err error) {
+//	refreshToken, err := utils.RefreshToken(r)
+//	if err != nil {
+//		return "", err
+//	}
+//
+//	newTokenPair, err := h.serv.AccessToken(r.Context(), converter.HTTPToRefreshToken(refreshToken))
+//	if err != nil {
+//		return "", err
+//	}
+//
+//	utils.AddTokenPairToClient(w, newTokenPair)
+//
+//	return newTokenPair.AccessToken, nil
+//}

@@ -3,12 +3,14 @@ package pg
 import (
 	"auth/internal/db"
 	"auth/internal/logger"
+	"auth/internal/utils"
 	"context"
 	"fmt"
 	"github.com/georgysavva/scany/pgxscan"
 	"github.com/jackc/pgconn"
 	"github.com/jackc/pgx/v4"
 	"github.com/jackc/pgx/v4/pgxpool"
+	"regexp"
 )
 
 type pg struct {
@@ -27,6 +29,16 @@ func NewDB(ctx context.Context, dsn string, log logger.Logger) (db.DB, error) {
 	}, nil
 }
 
+func (p *pg) logQuery(q db.Query) {
+	r := regexp.MustCompile(`\$(\d)`)
+	qu := r.ReplaceAllString(q.QueryRaw, "%v")
+
+	qu = fmt.Sprintf(qu, q.Args...)
+	l := fmt.Sprintf("sql: %s, query: %s", q.Name, qu)
+
+	p.log.Info(l)
+}
+
 func (p *pg) ScanOneContext(ctx context.Context, dest interface{}, q db.Query) error {
 	// p.logQuery(q)
 	rows, err := p.QueryContext(ctx, q)
@@ -40,9 +52,12 @@ func (p *pg) ScanOneContext(ctx context.Context, dest interface{}, q db.Query) e
 func (p *pg) ScanAllContext(ctx context.Context, dest interface{}, q db.Query) error {
 	// p.logQuery(q)
 	rows, err := p.QueryContext(ctx, q)
+
+	err = utils.ScanAll(dest, rows)
 	if err != nil {
-		return err
+		p.log.Info(err.Error())
 	}
+
 	return pgxscan.ScanAll(dest, rows)
 }
 
@@ -82,12 +97,6 @@ func (p *pg) ExecContext(ctx context.Context, q db.Query) (pgconn.CommandTag, er
 	}
 
 	return p.dbc.Exec(ctx, q.QueryRaw, q.Args...)
-}
-
-func (p *pg) logQuery(q db.Query) {
-	l := fmt.Sprintf("sql: %s, query: %s, args: %v", q.Name, q.QueryRaw, q.Args)
-
-	p.log.Info(l)
 }
 
 func (p *pg) StartTransaction(ctx context.Context) (context.Context, error) {

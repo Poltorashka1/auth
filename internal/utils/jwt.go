@@ -6,7 +6,6 @@ import (
 	serviceUserModel "auth/internal/service/user/model"
 	"crypto/rand"
 	"encoding/base64"
-	"fmt"
 	"github.com/golang-jwt/jwt/v5"
 	"net/http"
 	"strings"
@@ -57,45 +56,6 @@ func generateAccessToken(tokenData *serviceUserModel.TokenData, secret string) (
 	return token, nil
 }
 
-func GetToken(tokenString string) (string, error) {
-	//tokenString := r.Header.Get("Authorization")
-	if tokenString == "" {
-		return "", apperrors.ErrAccessToken
-	}
-
-	t := strings.Split(tokenString, " ")
-	if t[0] != "Bearer" {
-		return "", apperrors.ErrAccessToken
-	}
-
-	tokenString = t[1]
-	return tokenString, nil
-}
-
-func VerifyToken(tokenString, secret string) (*apiUserModel.TokenData, error) {
-	// todo uznat kak eto work
-	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
-		}
-		return []byte(secret), nil
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if !token.Valid {
-		return nil, apperrors.ErrAccessToken
-	}
-
-	tData := token.Claims.(jwt.MapClaims)
-	var data = new(apiUserModel.TokenData)
-	data.FromClaims(tData)
-
-	return data, nil
-}
-
 // todo проверить работу фукнции
 
 func AddTokenPairToClient(w http.ResponseWriter, token *serviceUserModel.AuthTokenPair) {
@@ -107,12 +67,12 @@ func AddTokenPairToClient(w http.ResponseWriter, token *serviceUserModel.AuthTok
 	})
 }
 
-func GetRefreshToken(r *http.Request) (token string, err error) {
-	refreshToken, err := r.Cookie("refresh_token")
+func RefreshToken(r *http.Request) (refreshToken string, err error) {
+	token, err := r.Cookie("refresh_token")
 	if err != nil {
 		return "", apperrors.ErrRefreshToken
 	}
-	if refreshToken.Value == "" {
+	if token.Value == "" {
 		return "", apperrors.ErrRefreshToken
 	}
 	// todo почемуто тут работает не правильно.
@@ -120,5 +80,53 @@ func GetRefreshToken(r *http.Request) (token string, err error) {
 	//	return "", apperrors.ErrRefreshTokenExpired
 	//}
 
-	return refreshToken.Value, nil
+	return token.Value, nil
+}
+
+// TokenData return user data if token is valid or apperrors.AccessError
+func TokenData(tokenString, jwtSecret string) (*apiUserModel.TokenData, error) {
+
+	token, err := verifyToken(tokenString, jwtSecret)
+	if err != nil {
+		return nil, err
+	}
+
+	tokenData := userDataFromToken(token)
+
+	return tokenData, nil
+}
+
+func verifyToken(tokenString, secret string) (token *jwt.Token, err error) {
+	if tokenString == "" {
+		return nil, apperrors.ErrAccessToken("Access token is not valid")
+	}
+
+	t := strings.Split(tokenString, " ")
+	if t[0] != "Bearer" {
+		return nil, apperrors.ErrAccessToken("Access token is not valid")
+	}
+	// todo uznat kak eto work
+	jwtToken, err := jwt.Parse(t[1], func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			// error = "unexpected signing method: %v", token.Header["alg"]
+			return nil, apperrors.ErrAccessToken("Access token is not valid")
+		}
+		return []byte(secret), nil
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	if !jwtToken.Valid {
+		return nil, apperrors.ErrAccessToken("Access token is not valid")
+	}
+
+	return jwtToken, nil
+}
+
+func userDataFromToken(token *jwt.Token) *apiUserModel.TokenData {
+	tData := token.Claims.(jwt.MapClaims)
+	var userData = new(apiUserModel.TokenData)
+	userData.FromClaims(tData)
+	return userData
 }

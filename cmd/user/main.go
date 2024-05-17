@@ -19,6 +19,7 @@ import (
 
 // todo Api-Key
 // todo pagination
+// todo логирование всех default и возвращение не ошибки аpperrors.ServerError
 
 func main() {
 	ctx := context.Background()

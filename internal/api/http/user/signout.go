@@ -11,7 +11,7 @@ import (
 )
 
 func (h *UserHandler) SignOut(w http.ResponseWriter, r *http.Request) {
-	token, err := utils.GetRefreshToken(r)
+	token, err := utils.RefreshToken(r)
 	if err != nil {
 		switch {
 		case errors.Is(err, apperrors.ErrRefreshTokenExpired):

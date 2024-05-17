@@ -1,10 +1,17 @@
 package db
 
-import "context"
+import (
+	"context"
+)
 
 type Cache interface {
-	Get(ctx context.Context, key string) (string, error)
-	Add(ctx context.Context, key string, value string) error
-
+	Get(ctx context.Context, q CacheQuery) (string, error)
+	Add(ctx context.Context, q CacheQuery) error
 	Close() error
+}
+
+type CacheQuery struct {
+	Name  string
+	Key   string
+	Value string
 }

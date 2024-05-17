@@ -60,7 +60,7 @@ func (s *SignUpUser) Validate() error {
 	return nil
 }
 
-func (g *GetUserByName) Validate() error {
+func (g *UserByName) Validate() error {
 	var errors = new(apperrors.ValidationErrors)
 	if err := validateName(g.Name); err != nil {
 		errors.Message = append(errors.Message, err.Error())
@@ -73,7 +73,7 @@ func (g *GetUserByName) Validate() error {
 	return nil
 }
 
-func (g *GetUserByID) Validate() error {
+func (g *UserByID) Validate() error {
 	var errors = new(apperrors.ValidationErrors)
 	if err := validateID(g.ID); err != nil {
 		errors.Message = append(errors.Message, err.Error())
@@ -190,9 +190,24 @@ func validateRefreshToken(refreshToken string) error {
 
 }
 
+// todo
 func validateAccessToken(accessToken string) error {
 	if accessToken == "" {
-		return apperrors.ErrAccessToken
+		return apperrors.ErrAccessToken("Access token is not valid")
 	}
+	return nil
+}
+
+func (r *RefreshToken) Validate() error {
+	var errors = new(apperrors.ValidationErrors)
+
+	if err := validateRefreshToken(r.RefreshToken); err != nil {
+		errors.Message = append(errors.Message, err.Error())
+	}
+
+	if len(errors.Message) > 0 {
+		return errors
+	}
+
 	return nil
 }
